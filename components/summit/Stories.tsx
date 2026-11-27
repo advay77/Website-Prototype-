@@ -12,6 +12,10 @@ export type Story = {
 const EVERY = 4000;
 const PER_VIEW = 3;
 
+const Arrow = (left: boolean) => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={left ? { transform: 'scaleX(-1)' } : undefined}><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+);
+
 const PlayIcon = <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg>;
 
 /** One card: its photos cross-fade every 4s (staggered per card); a video plays when there is one. */
@@ -97,16 +101,19 @@ export function Stories({ items }: { items: Story[] }) {
         {items.map((s, i) => <StoryCard key={s.h} s={s} index={i} live={live} onPlay={() => setVideo(s)} />)}
       </div>
       {pages > 1 && (
-        <>
-          <button className={`stories-next${last ? ' back' : ''}`} onClick={() => go(last ? 0 : page + 1)} aria-label={last ? 'Back to the first stories' : 'Show more stories'}>
-            <span aria-hidden="true">{last ? '←' : '→'}</span>
-            <small>{last ? 'Back' : 'More stories'}</small>
-          </button>
+        <div className="stories-bar">
           <div className="stories-pager" aria-hidden="true">
             {Array.from({ length: pages }, (_, i) => <i key={i} className={i === page ? 'on' : ''} />)}
-            <span>{String(Math.min(items.length, (page + 1) * PER_VIEW)).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
+            <span>{String(Math.min(items.length, Math.round(((page + 1) * items.length) / pages))).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
           </div>
-        </>
+          <div className="stories-ctl">
+            <button className="stories-arrow" onClick={() => go(page - 1)} disabled={page === 0} aria-label="Previous stories">{Arrow(true)}</button>
+            <button className={`stories-more${last ? ' back' : ''}`} onClick={() => go(last ? 0 : page + 1)} aria-label={last ? 'Back to the first stories' : 'Show more stories'}>
+              <span>{last ? 'Back to start' : 'More stories'}</span>
+              <i aria-hidden="true">{Arrow(last)}</i>
+            </button>
+          </div>
+        </div>
       )}
       {video?.video && (
         <div className="story-modal" role="dialog" aria-modal="true" aria-label={video.h} onClick={() => setVideo(null)}>

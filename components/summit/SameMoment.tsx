@@ -62,7 +62,7 @@ export function SameMoment() {
         ))}
         <div className="board-bar" key={`bar-${tick}-${hold}`}><i className={hold || !visible ? 'held' : ''} /></div>
       </div>
-      <p className="same-note">Seven Summits, side by side. The board flips to a new moment every few seconds; hover to hold it.</p>
+      <p className="same-note">Eight Summits, side by side. The board flips to a new moment every few seconds; hover to hold it.</p>
     </div>
   );
 }

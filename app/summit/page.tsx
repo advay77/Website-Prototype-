@@ -9,11 +9,8 @@ import { WhyFlip } from '@/components/summit/WhyFlip';
 import { Net } from '@/components/Net';
 import { SummitPass } from '@/components/summit/SummitPass';
 import { Stories, type Story } from '@/components/summit/Stories';
-import { YearRoute } from '@/components/summit/YearRoute';
-import { SameMoment } from '@/components/summit/SameMoment';
 import { TeaserMosaic } from '@/components/summit/TeaserMosaic';
 import { LiveMosaicBg } from '@/components/summit/LiveMosaicBg';
-import { YEARS } from '@/lib/years';
 import { ScrollHero } from '@/components/summit/ScrollHero';
 import { Bento } from '@/components/summit/Bento';
 import { CountUp } from '@/components/summit/CountUp';
@@ -234,37 +231,14 @@ export default function SummitPage() {
         </div>
       </section>
 
-      {/* A decade on the road: every Summit's photos */}
-      <section className="dark s-years" id="years">
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <div><div className="tag">A decade on the road</div><h2>Ten Summits. One growing network.</h2></div>
-            <p>Follow the truck from our first gathering in 2017 to the Decade of DISCOVER. Tap a year to see its photos.</p>
-          </div>
-          <div className="reveal"><YearRoute years={YEARS} /></div>
-
-        </div>
-      </section>
-
-      {/* Ten years, spelled in photos */}
+      {/* The DISCOVER logo, built from photos */}
       <section className="s-teaser">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><div className="tag">The DISCOVER gallery</div><h2>Ten years, spelled in faces.</h2></div>
-            <p>Every Summit photo we have, together in one place. Tap the letters to step into the full gallery.</p>
+            <div><div className="tag">The DISCOVER gallery</div><h2>DISCOVER, built from every face.</h2></div>
+            <p>Scroll and the logo assembles from Summit photos. Move over it to magnify the people behind it, or tap to open the full gallery.</p>
           </div>
           <div className="reveal"><TeaserMosaic /></div>
-        </div>
-      </section>
-
-      {/* Same moment, every year */}
-      <section className="s-same">
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <div><div className="tag">Same moment, every year</div><h2>Watch the community grow.</h2></div>
-            <p>The same kind of photo from every Summit we have, side by side.</p>
-          </div>
-          <div className="reveal"><SameMoment /></div>
         </div>
       </section>
 
@@ -352,7 +326,6 @@ export default function SummitPage() {
         <LiveMosaicBg />
         <div className="s-final-shade" aria-hidden="true" />
         <div className="wrap reveal">
-          <div className="your-tile" aria-hidden="true"><b>2027</b><span>Your photo here</span></div>
           <div className="tag">The next connection starts here</div>
           <h2>Be part of what’s next.</h2>
           <p>Join the people, ideas and conversations shaping supply chain leadership.</p>
