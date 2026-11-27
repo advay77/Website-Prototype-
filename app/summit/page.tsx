@@ -5,6 +5,7 @@ import { Photo } from '@/components/summit/Photo';
 import { RouteAgenda } from '@/components/summit/RouteAgenda';
 import { SpeakerDeck } from '@/components/summit/SpeakerDeck';
 import { TypeLine } from '@/components/summit/TypeLine';
+import { WhyFlip } from '@/components/summit/WhyFlip';
 import { Net } from '@/components/Net';
 import { SummitPass } from '@/components/summit/SummitPass';
 import { YearRoute } from '@/components/summit/YearRoute';
@@ -154,22 +155,23 @@ export default function SummitPage() {
             <p>Leaders from these organizations have been in the room</p>
             <Marquee>{LOGOS.map(([f, n]) => <img key={f} src={`/assets/logos/${f}`} alt={n} />)}</Marquee>
           </div>
-          <div className="why reveal stagger">
-            {[
-              ['learn', 'Learn', 'Insights from the leaders shaping what’s next: keynotes and candid panels from CPOs, VPs and directors at J&J, Pfizer, Merck, Walmart, Hershey and more.', 'voice-keynote'],
-              ['connect', 'Connect', 'Build relationships across industry and academia. Pharma meets retail meets consulting meets the universities training tomorrow’s talent.', 'networking'],
-              ['grow', 'Grow', 'Leave with a plan, not just notes: career workshops, executive coaching and a career fair for people ready for their next move.', 'workshop'],
-            ].map(([k, h, p, photo]) => (
-              <article className="why-card" key={k}>
-                <div className="why-ph"><Photo name={photo} alt="" sizes="(max-width: 980px) 100vw, 33vw" /></div>
-                <div className="why-in">
-                  <span className="why-ico">{Icon[k as 'learn']}</span>
-                  <h3>{h}</h3>
-                  <p>{p}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          <WhyFlip cards={[
+            { key: 'learn', title: 'Learn', photo: 'voice-keynote', icon: Icon.learn,
+              lead: 'Insights from the leaders shaping what’s next.',
+              stat: ['3', 'breakout tracks: Sustainability · Digital and AI · Talent and inclusion'],
+              points: ['Opening and closing keynotes', 'Executive panel: leading through disruption', 'CPOs, VPs and directors from J&J, Pfizer, Merck, Walmart, Hershey'],
+              cta: ['See the two days', '#agenda'] },
+            { key: 'connect', title: 'Connect', photo: 'networking', icon: Icon.connect,
+              lead: 'Relationships across industry and academia.',
+              stat: ['100+', 'supply chain leaders in one room'],
+              points: ['Pharma, consumer goods, retail, consulting and universities', 'Leadership breakfast at small tables', 'The DISCOVER Gala: dinner, awards, dancing'],
+              cta: ['Hear it from attendees', '#voices'] },
+            { key: 'grow', title: 'Grow', photo: 'workshop', icon: Icon.grow,
+              lead: 'Leave with a plan, not just notes.',
+              stat: ['2 days', '+ the Gala, every meal included'],
+              points: ['Career workshops and executive coaching', 'Career fair and company showcase', 'Diverse Talent Network for students and early career'],
+              cta: ['Get your pass · $299', '#tickets'] },
+          ]} />
         </div>
       </section>
 
