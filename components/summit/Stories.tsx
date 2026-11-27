@@ -6,10 +6,10 @@ export type Story = {
   k: string;
   h: string;
   photos: string[]; // full image URLs; they rotate every few seconds
-  video?: { src: string; loop: string; poster: string };
+  video?: { src: string; poster: string; x?: number }; // x: horizontal focus (0-1) for the portrait card crop
 };
 
-const EVERY = 4000;
+const EVERY = 3500;
 const PER_VIEW = 3;
 
 const Arrow = (left: boolean) => (
@@ -18,7 +18,7 @@ const Arrow = (left: boolean) => (
 
 const PlayIcon = <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg>;
 
-/** One card: its photos cross-fade every 4s (staggered per card); a video plays when there is one. */
+/** One card: photos cross-fade every 4s (staggered per card), or a video that plays on hover. */
 function StoryCard({ s, index, live, onPlay }: { s: Story; index: number; live: boolean; onPlay: () => void }) {
   const [at, setAt] = useState(0);
   useEffect(() => {
@@ -28,22 +28,42 @@ function StoryCard({ s, index, live, onPlay }: { s: Story; index: number; live: 
     return () => { clearTimeout(start); clearInterval(id); };
   }, [live, index, s.video, s.photos.length]);
 
+  // Video cards: the person starts talking when the pointer is over the card
+  // (with sound once the visitor has interacted with the page), and stops
+  // when it leaves. On touch screens the card plays muted while centred.
   const vid = useRef<HTMLVideoElement>(null);
+  const card = useRef<HTMLElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const start = () => {
+    const v = vid.current; if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const nav = navigator as Navigator & { userActivation?: { hasBeenActive: boolean } };
+    v.muted = !nav.userActivation?.hasBeenActive; setMuted(v.muted);
+    if (v.ended) v.currentTime = 0;
+    v.play().catch(() => { v.muted = true; setMuted(true); v.play().catch(() => {}); });
+  };
+  const stop = () => vid.current?.pause();
   useEffect(() => {
-    const v = vid.current; if (!v) return;
-    if (live && !matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(() => {});
-    else v.pause();
-  }, [live]);
+    if (!s.video || matchMedia('(hover: hover)').matches) return;
+    const io = new IntersectionObserver(([e]) => (e.intersectionRatio > 0.7 ? start() : stop()), { threshold: [0, 0.7] });
+    io.observe(card.current!);
+    return () => io.disconnect();
+  }, [s.video]);
+  useEffect(() => { if (!live) stop(); }, [live]);
 
   return (
-    <article className={`story${s.video ? ' has-video' : ''}`}>
+    <article ref={card} className={`story${s.video ? ' has-video' : ''}${playing ? ' playing' : ''}`}
+      onPointerEnter={(e) => { if (s.video && e.pointerType === 'mouse') start(); }}
+      onPointerLeave={(e) => { if (s.video && e.pointerType === 'mouse') stop(); }}>
       {s.video ? (
-        <video ref={vid} className="on" src={s.video.loop} poster={s.video.poster} muted loop playsInline preload="none" aria-hidden="true" />
+        <video ref={vid} className="on" src={s.video.src} poster={s.video.poster} muted playsInline preload="metadata" aria-hidden="true"
+          style={{ objectPosition: `${(s.video.x ?? 0.5) * 100}% 50%` }}
+          onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} />
       ) : s.photos.map((src, i) => (
         <img key={src} className={i === at ? 'on' : ''} src={src} alt="" loading={i === 0 && index < PER_VIEW ? 'eager' : 'lazy'} decoding="async" aria-hidden="true" />
       ))}
       {s.video ? (
-        <button className="play" onClick={onPlay} aria-label={`Play video: ${s.h}`}>{PlayIcon}</button>
+        <button className="play" onClick={() => { stop(); onPlay(); }} aria-label={`Play video with sound: ${s.h}`}>{PlayIcon}</button>
       ) : (
         <div className="play" aria-hidden="true">{PlayIcon}</div>
       )}
@@ -51,7 +71,11 @@ function StoryCard({ s, index, live, onPlay }: { s: Story; index: number; live: 
       <div className="cap">
         <div className="k">{s.k}</div>
         <h4>{s.h}</h4>
-        {s.video ? <button className="soon watch" onClick={onPlay}>Watch the story</button> : <span className="soon">Video coming soon</span>}
+        {s.video ? (
+          <button className="soon watch" onClick={() => { stop(); onPlay(); }}>
+            {playing ? (muted ? 'Playing muted · tap for sound' : 'Playing · open full screen') : 'Hover to play · tap for sound'}
+          </button>
+        ) : <span className="soon">Video coming soon</span>}
       </div>
     </article>
   );

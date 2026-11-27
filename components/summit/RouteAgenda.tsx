@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 type Slot = { time: string; title: string; short: string; note: string; photo: string; alt: string; stop?: string };
 
 const PER_STOP = 12;
-const PHOTO_MS = 4000;
+const PHOTO_MS = 3500;
 /** The truck moves on after this many photos; the rest are a tap away. */
 const AUTO_SHOTS = 6;
 const img = (stop: string, k: number, w: 400 | 1600) => `/assets/summit/stops/${stop}-${k}-${w}.jpg`;
@@ -114,7 +114,6 @@ export function RouteAgenda({ days }: { days: Day[] }) {
           )}
         </div>
         <div className="route-txt">
-          <div className="tag">Stop {stop + 1} · {s.time} · {d.label}</div>
           <h3>{s.title}</h3>
           <p>{s.note}</p>
           <div className="route-nav">

@@ -106,7 +106,6 @@ export function ScrollHero() {
 
         <div className="wrap sh-layer">
           <div ref={intro} className="sh-intro">
-            <div className="tag">The DISCOVER Annual Summit · 11th edition</div>
             <h1>The future of supply chain starts <em>with connection.</em></h1>
             <p className="lead">Join emerging talent, industry leaders and organizations shaping the next generation of supply chain leadership. Two days, 100+ leaders, one Gala.</p>
             <div className="chips s-chips"><span>September 2027</span><span>New Jersey · venue soon</span><span>2 days + Gala</span></div>
@@ -124,7 +123,6 @@ export function ScrollHero() {
           ))}
 
           <div ref={outro} className="sh-outro" aria-hidden="true">
-            <div className="tag">September 2027 · New Jersey</div>
             <b>Take your seat.</b>
             <div className="ctas">
               <a className="btn btn-white" href="#tickets" tabIndex={-1}>Get your pass · $299 <span className="arr">→</span></a>

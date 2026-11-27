@@ -57,15 +57,15 @@ const SPEAKERS = [
   { photo: 'voice-stage', role: 'Recognition', session: 'Celebrating the people who move the world', pos: '62% 40%' },
 ];
 
-const vid = (n: number) => ({ src: `/assets/summit/stories/v${n}.mp4`, loop: `/assets/summit/stories/v${n}-loop.mp4`, poster: `/assets/summit/stories/v${n}.jpg` });
-// Interviews recorded at the 2025 Summit in Jersey City (DISCOVER Dropbox).
+const vid = (n: number, x: number) => ({ src: `/assets/summit/stories/v${n}.mp4`, poster: `/assets/summit/stories/v${n}.jpg`, x });
+// Interviews recorded at the 2025 Summit in Jersey City (DISCOVER Dropbox), trimmed to the answer.
 const STORIES: Story[] = [
-  { k: 'Attendee voice · 2025', h: 'What the Summit means to me', photos: [], video: vid(1) },
-  { k: 'Attendee voice · 2025', h: 'The people I met in this room', photos: [], video: vid(2) },
-  { k: 'Attendee voice · 2025', h: 'What I’m taking home', photos: [], video: vid(3) },
-  { k: 'Attendee voice · 2025', h: 'Why this community matters', photos: [], video: vid(4) },
-  { k: 'Attendee voice · 2025', h: 'One day, in my own words', photos: [], video: vid(5) },
-  { k: 'Community · 2025', h: 'The 2025 class, all in one frame', photos: [], video: vid(6) },
+  { k: 'Committee chair · 2025', h: 'First-time attendee to committee chair in one year', photos: [], video: vid(1, 0.47) },
+  { k: 'Student · 2025', h: 'From one business school event to the Summit', photos: [], video: vid(2, 0.45) },
+  { k: 'First-time attendee · 2025', h: 'Meeting the people behind the decisions you read about', photos: [], video: vid(3, 0.5) },
+  { k: 'Founder · 2025', h: 'Building a startup? Start with the supply chain', photos: [], video: vid(4, 0.45) },
+  { k: 'Student · Business analytics', h: 'I found my place in supply chain', photos: [], video: vid(5, 0.48) },
+  { k: 'Community · 2025', h: 'The 2025 class, all in one frame', photos: [], video: vid(6, 0.62) },
 ];
 
 const MOMENTS = [
@@ -150,7 +150,6 @@ export default function SummitPage() {
       <section>
         <div className="wrap">
           <div className="s-center reveal">
-            <div className="tag">Why attend</div>
             <h2>Small enough to meet everyone. Senior enough to matter.</h2>
             <p>A two-day experience to learn, connect and grow with the supply chain community. No 8,000-person expo halls.</p>
           </div>
@@ -159,17 +158,17 @@ export default function SummitPage() {
             <Marquee>{LOGOS.map(([f, n]) => <img key={f} src={`/assets/logos/${f}`} alt={n} />)}</Marquee>
           </div>
           <WhyFlip cards={[
-            { key: 'learn', title: 'Learn', photo: 'voice-keynote', icon: Icon.learn,
+            { key: 'learn', title: 'Learn', photo: 'why-learn', icon: Icon.learn,
               lead: 'Insights from the leaders shaping what’s next.',
               stat: ['3', 'breakout tracks: Sustainability · Digital and AI · Talent and inclusion'],
               points: ['Opening and closing keynotes', 'Executive panel: leading through disruption', 'CPOs, VPs and directors from J&J, Pfizer, Merck, Walmart, Hershey'],
               cta: ['See the two days', '#agenda'] },
-            { key: 'connect', title: 'Connect', photo: 'networking', icon: Icon.connect,
+            { key: 'connect', title: 'Connect', photo: 'why-connect', icon: Icon.connect,
               lead: 'Relationships across industry and academia.',
               stat: ['100+', 'supply chain leaders in one room'],
               points: ['Pharma, consumer goods, retail, consulting and universities', 'Leadership breakfast at small tables', 'The DISCOVER Gala: dinner, awards, dancing'],
               cta: ['Hear it from attendees', '#voices'] },
-            { key: 'grow', title: 'Grow', photo: 'workshop', icon: Icon.grow,
+            { key: 'grow', title: 'Grow', photo: 'why-grow', icon: Icon.grow,
               lead: 'Leave with a plan, not just notes.',
               stat: ['2 days', '+ the Gala, every meal included'],
               points: ['Career workshops and executive coaching', 'Career fair and company showcase', 'Diverse Talent Network for students and early career'],
@@ -182,7 +181,7 @@ export default function SummitPage() {
       <section className="mist" id="agenda">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><div className="tag">Experience the Summit</div><h2>Your two days, mapped like a supply chain route.</h2></div>
+            <div><h2>Your two days, mapped like a supply chain route.</h2></div>
             <p>Follow the truck from badge pick-up to the Gala, or tap any stop. Based on the 2026 format; the full 2027 agenda is announced in spring.</p>
           </div>
           <div className="reveal"><RouteAgenda days={DAYS} /></div>
@@ -195,10 +194,10 @@ export default function SummitPage() {
         <div className="deck-lines" aria-hidden="true"><i /><i /><i /></div>
         <div className="wrap reveal">
           <p className="deck-type"><span className="deck-type-k">&gt;</span><TypeLine lines={[
-            'Your next mentor could be on this stage.',
-            'One conversation here has changed careers.',
-            'Next year, it could be you holding the mic.',
-            'CPOs, VPs and directors. Same room as you.',
+            'Same room. Same coffee line. Same people who sign off on the supply chain.',
+            'The keynote ends. That’s when the real conversations start.',
+            'Bring a question. Leave with a contact who can answer it.',
+            'Last year’s attendee is this year’s committee chair.',
           ]} /></p>
           <SpeakerDeck items={SPEAKERS} />
           <a className="deck-next" href="#voices">
@@ -213,8 +212,8 @@ export default function SummitPage() {
       <section className="dark s-stories" id="voices">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><div className="tag">Real voices</div><h2>Hear it from the people in the room.</h2></div>
-            <p>Students and professionals on what the Summit changed for them, recorded at the 2025 Summit in Jersey City. Tap a story to watch it with sound.</p>
+            <div><h2>Hear it from the people in the room.</h2></div>
+            <p>Students and professionals on what the Summit changed for them, recorded at the 2025 Summit in Jersey City. Hover over a story to hear it, or tap to watch full screen.</p>
           </div>
           <div className="reveal"><Stories items={STORIES} /></div>
         </div>
@@ -224,7 +223,7 @@ export default function SummitPage() {
       <section className="s-moments">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><div className="tag">Moments that matter</div><h2>The 2026 Summit, in motion.</h2></div>
+            <div><h2>The 2026 Summit, in motion.</h2></div>
             <p>Keynote mornings, Gala awards and a dance floor that didn’t empty until late. Tap any tile to see the photos full size.</p>
           </div>
           <Bento tiles={BENTO} photos={[...MOMENTS, ...RIVER]} />
@@ -235,7 +234,7 @@ export default function SummitPage() {
       <section className="s-teaser">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><div className="tag">The DISCOVER gallery</div><h2>DISCOVER, built from every face.</h2></div>
+            <div><h2>DISCOVER, built from every face.</h2></div>
             <p>Scroll and the logo assembles from Summit photos. Move over it to magnify the people behind it, or tap to open the full gallery.</p>
           </div>
           <div className="reveal"><TeaserMosaic /></div>
@@ -246,7 +245,7 @@ export default function SummitPage() {
       <section id="tickets">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><div className="tag">Tickets &amp; pricing</div><h2>Come for the Summit. Stay for the year.</h2></div>
+            <div><h2>Come for the Summit. Stay for the year.</h2></div>
             <p>Every pass includes both days, all meals and the Gala. All-Access adds a full year of DISCOVER community.</p>
           </div>
           <div className="prices reveal stagger">
@@ -288,7 +287,6 @@ export default function SummitPage() {
           <div className="sponsor-box reveal">
             <div className="sponsor-ph"><Photo name="stage" alt="The DISCOVER stage ready for the Summit" sizes="(max-width: 980px) 100vw, 45vw" /></div>
             <div className="sponsor-in">
-              <div className="tag">Corporate sponsorship</div>
               <h2>Put your organization at the center of the conversation.</h2>
               <div className="perks reveal stagger">
                 {[
@@ -312,7 +310,7 @@ export default function SummitPage() {
       {/* 09 · FAQ */}
       <section>
         <div className="wrap">
-          <div className="sec-head reveal"><div><div className="tag">FAQ &amp; logistics</div><h2>Good questions.</h2></div><p>Anything else? Email <a href="mailto:info@discover-org.us" style={{ color: 'var(--blue)' }}>info@discover-org.us</a></p></div>
+          <div className="sec-head reveal"><div><h2>Good questions.</h2></div><p>Anything else? Email <a href="mailto:info@discover-org.us" style={{ color: 'var(--blue)' }}>info@discover-org.us</a></p></div>
           <div className="faq s-faq reveal">
             {FAQ.map(([q, a], i) => (
               <details key={q} open={i === 0}><summary>{q}</summary><p>{a}</p></details>
@@ -326,7 +324,6 @@ export default function SummitPage() {
         <LiveMosaicBg />
         <div className="s-final-shade" aria-hidden="true" />
         <div className="wrap reveal">
-          <div className="tag">The next connection starts here</div>
           <h2>Be part of what’s next.</h2>
           <p>Join the people, ideas and conversations shaping supply chain leadership.</p>
           <div className="ctas">
