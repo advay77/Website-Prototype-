@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 type Slot = { time: string; title: string; short: string; note: string; photo: string; alt: string; stop?: string };
 
 const PER_STOP = 12;
-const PHOTO_MS = 2200;
+const PHOTO_MS = 4000;
 /** The truck moves on after this many photos; the rest are a tap away. */
 const AUTO_SHOTS = 6;
 const img = (stop: string, k: number, w: 400 | 1600) => `/assets/summit/stops/${stop}-${k}-${w}.jpg`;

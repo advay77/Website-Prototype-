@@ -6,7 +6,7 @@ import { Lightbox } from './Lightbox';
 import type { Year } from '@/lib/years';
 
 const BUBBLES = 6;
-const PHOTO_MS = 2600;
+const PHOTO_MS = 4000;
 
 /**
  * "Ten Summits, one route": the truck drives from 2017 to 2026. Each year
@@ -40,7 +40,7 @@ export function YearRoute({ years }: { years: Year[] }) {
       if (shown.length && shot < shown.length - 1) setShot(shot + 1);
       else if (auto) setAt((at + 1) % n);
       else if (shown.length) setShot(0);
-    }, shown.length ? PHOTO_MS : 3200);
+    }, PHOTO_MS);
     return () => clearTimeout(id);
   }, [visible, hold, viewer, shot, at, auto, shown.length, n]);
 
@@ -58,7 +58,7 @@ export function YearRoute({ years }: { years: Year[] }) {
     <div className="route yroute" ref={root}>
       <div className="route-top">
         <span className="route-eta"><i />{y.year} · {y.city}</span>
-        <span className="yr-count">{years.reduce((s, v) => s + v.shots.length, 0)} photos across {years.filter((v) => v.shots.length).length} Summits</span>
+        <span className="yr-count">{years.length} Summits · since {years[0].year}</span>
       </div>
 
       <div className="yr-scroll" ref={scroller}>
@@ -70,7 +70,6 @@ export function YearRoute({ years }: { years: Year[] }) {
             <button key={v.year} className={`route-stop${i === at ? ' on' : ''}${i < at ? ' past' : ''}${v.shots.length ? '' : ' empty'}`} style={{ left: `${pos(i)}%` }} onClick={() => pick(i)} aria-pressed={i === at} aria-label={`${v.year}, ${v.city}`}>
               <i style={v.shots[0] ? { backgroundImage: `url(${v.shots[0].thumb})` } : undefined}>
                 {!v.shots.length && <span>{v.virtual ? '◎' : '…'}</span>}
-                {v.shots.length > 0 && <em>{v.shots.length}</em>}
               </i>
               <b>{v.year}</b>
               <small>{v.virtual ? 'Virtual' : v.city.split(',')[0]}</small>
@@ -93,8 +92,8 @@ export function YearRoute({ years }: { years: Year[] }) {
                   </button>
                 ))}
                 {y.shots.length > BUBBLES && (
-                  <button className="bubble more" onClick={() => setViewer(BUBBLES)} aria-label={`See all ${y.shots.length} photos from ${y.year}`}>
-                    <span>+{y.shots.length - BUBBLES}</span>
+                  <button className="bubble more" onClick={() => setViewer(BUBBLES)} aria-label={`View all photos from ${y.year}`}>
+                    <span>View all</span>
                   </button>
                 )}
               </div>
@@ -110,11 +109,11 @@ export function YearRoute({ years }: { years: Year[] }) {
         <div className="route-txt">
           <div className="tag">Summit {String(at + 1).padStart(2, '0')} · {y.year}</div>
           <h3>{y.city}</h3>
-          <p>{y.note}{y.shots.length ? ` · ${y.shots.length} photos` : ''}</p>
+          <p>{y.note}</p>
           <div className="route-nav">
             <button onClick={() => pick(Math.max(0, at - 1))} disabled={at === 0} aria-label="Previous year">←</button>
             <button onClick={() => pick(Math.min(n - 1, at + 1))} disabled={at === n - 1} aria-label="Next year">→</button>
-            {y.shots.length > 0 && <button className="yr-all" onClick={() => setViewer(0)}>All {y.shots.length} photos</button>}
+            {y.shots.length > 0 && <button className="yr-all" onClick={() => setViewer(0)} aria-label={`View all photos from ${y.year}`}>View all</button>}
           </div>
         </div>
       </div>

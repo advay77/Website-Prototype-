@@ -8,6 +8,7 @@ import { TypeLine } from '@/components/summit/TypeLine';
 import { WhyFlip } from '@/components/summit/WhyFlip';
 import { Net } from '@/components/Net';
 import { SummitPass } from '@/components/summit/SummitPass';
+import { Stories, type Story } from '@/components/summit/Stories';
 import { YearRoute } from '@/components/summit/YearRoute';
 import { SameMoment } from '@/components/summit/SameMoment';
 import { TeaserMosaic } from '@/components/summit/TeaserMosaic';
@@ -59,10 +60,15 @@ const SPEAKERS = [
   { photo: 'voice-stage', role: 'Recognition', session: 'Celebrating the people who move the world', pos: '62% 40%' },
 ];
 
-const STORIES = [
-  { photo: 'story-1', k: 'Professional story', h: 'What the Summit opened up for my career' },
-  { photo: 'story-2', k: 'Student story', h: 'Walking in as a student, leaving with a network' },
-  { photo: 'story-3', k: 'Community story', h: 'Why we come back every year' },
+const gl = (i: number) => `/assets/gallery/l/${String(i).padStart(3, '0')}.webp`;
+const sp = (n: string) => `/assets/summit/${n}-1600.jpg`;
+const STORIES: Story[] = [
+  { k: 'Professional story', h: 'What the Summit opened up for my career', photos: [sp('story-1'), gl(255), gl(257), gl(278)] },
+  { k: 'Student story', h: 'Walking in as a student, leaving with a network', photos: [sp('story-2'), gl(234), gl(329), gl(336)] },
+  { k: 'Community story', h: 'Why we come back every year', photos: [sp('story-3'), gl(332), gl(296), gl(323)] },
+  { k: 'Speaker story', h: 'What I tell people from the stage', photos: [gl(227), gl(637), gl(653), gl(684)] },
+  { k: 'First-timer story', h: 'My first Summit, from badge to Gala', photos: [gl(124), gl(349), gl(390), gl(343)] },
+  { k: 'Gala story', h: 'The night everyone remembers', photos: [gl(437), gl(439), gl(459), gl(382)] },
 ];
 
 const MOMENTS = [
@@ -213,15 +219,7 @@ export default function SummitPage() {
             <div><div className="tag">Real voices</div><h2>Hear it from the people in the room.</h2></div>
             <p>Students and professionals on what the Summit changed for them. Video stories from the 2026 Summit are on their way.</p>
           </div>
-          <div className="stories reveal stagger">
-            {STORIES.map((s) => (
-              <article className="story" key={s.photo}>
-                <Photo name={s.photo} alt="" sizes="(max-width: 980px) 100vw, 33vw" />
-                <div className="play" aria-hidden="true">{Icon.play}</div>
-                <div className="cap"><div className="k">{s.k}</div><h4>{s.h}</h4><span className="soon">Video coming soon</span></div>
-              </article>
-            ))}
-          </div>
+          <div className="reveal"><Stories items={STORIES} /></div>
         </div>
       </section>
 

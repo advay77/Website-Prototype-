@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MOMENTS } from '@/lib/years';
 
-const EVERY = 5200;
+const EVERY = 4000;
 
 /**
  * "Same moment, every year", as a departures board: every few seconds the
