@@ -4,6 +4,8 @@ import { PageChrome } from '@/components/PageChrome';
 import { Photo } from '@/components/summit/Photo';
 import { RouteAgenda } from '@/components/summit/RouteAgenda';
 import { SpeakerDeck } from '@/components/summit/SpeakerDeck';
+import { TypeLine } from '@/components/summit/TypeLine';
+import { Net } from '@/components/Net';
 import { SummitPass } from '@/components/summit/SummitPass';
 import { YearRoute } from '@/components/summit/YearRoute';
 import { SameMoment } from '@/components/summit/SameMoment';
@@ -184,11 +186,26 @@ export default function SummitPage() {
 
       {/* 04 · Speakers & leaders */}
       <section className="dark s-deck">
-        <div className="wrap reveal"><SpeakerDeck items={SPEAKERS} /></div>
+        <Net className="deck-net" seed={61} density={18} />
+        <div className="deck-lines" aria-hidden="true"><i /><i /><i /></div>
+        <div className="wrap reveal">
+          <p className="deck-type"><span className="deck-type-k">&gt;</span><TypeLine lines={[
+            'Your next mentor could be on this stage.',
+            'One conversation here has changed careers.',
+            'Next year, it could be you holding the mic.',
+            'CPOs, VPs and directors. Same room as you.',
+          ]} /></p>
+          <SpeakerDeck items={SPEAKERS} />
+          <a className="deck-next" href="#voices">
+            <span className="deck-next-k">Up next</span>
+            <b>What one conversation changed. <em>Hear it from them</em></b>
+            <i aria-hidden="true">↓</i>
+          </a>
+        </div>
       </section>
 
       {/* 05 · Real voices */}
-      <section className="dark s-stories">
+      <section className="dark s-stories" id="voices">
         <div className="wrap">
           <div className="sec-head reveal">
             <div><div className="tag">Real voices</div><h2>Hear it from the people in the room.</h2></div>
