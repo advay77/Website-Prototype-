@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageChrome } from '@/components/PageChrome';
 import { Photo } from '@/components/summit/Photo';
-import { DayTimeline } from '@/components/summit/DayTimeline';
+import { RouteAgenda } from '@/components/summit/RouteAgenda';
+import { SpeakerDeck } from '@/components/summit/SpeakerDeck';
+import { SummitPass } from '@/components/summit/SummitPass';
 import { ScrollHero } from '@/components/summit/ScrollHero';
 import { Bento } from '@/components/summit/Bento';
 import { CountUp } from '@/components/summit/CountUp';
@@ -20,32 +22,33 @@ const DAYS = [
   {
     key: 'd1', label: 'Day 1', theme: 'Connect',
     slots: [
-      { time: '08:30', title: 'Registration and breakfast', note: 'Badge pick-up, coffee, first connections', photo: 'registration', alt: 'Attendees checking in at the registration desk' },
-      { time: '09:30', title: "President's welcome and opening keynote", note: 'Presented by the 2027 Summit Host Partner', photo: 'keynote', alt: 'Keynote speaker at the DISCOVER podium' },
-      { time: '11:00', title: 'Executive panel: leading through disruption', note: 'Cross-industry CSCO and VP perspectives', photo: 'panel', alt: 'Executive panel on the DISCOVER stage' },
-      { time: '13:30', title: 'Breakouts', note: 'Sustainability · Digital and AI · Talent and inclusion', photo: 'breakouts', alt: 'Round-table breakout discussion' },
-      { time: '18:30', title: 'DISCOVER Gala', note: 'Dinner, awards and celebration', photo: 'gala', alt: 'Award presented on stage at the DISCOVER Gala' },
+      { time: '08:30', title: 'Registration and breakfast', short: 'Arrive', note: 'Badge pick-up, coffee, first connections', photo: 'registration', alt: 'Attendees checking in at the registration desk' },
+      { time: '09:30', title: "President's welcome and opening keynote", short: 'Keynote', note: 'Presented by the 2027 Summit Host Partner', photo: 'keynote', alt: 'Keynote speaker at the DISCOVER podium' },
+      { time: '11:00', title: 'Executive panel: leading through disruption', short: 'Panel', note: 'Cross-industry CSCO and VP perspectives', photo: 'panel', alt: 'Executive panel on the DISCOVER stage' },
+      { time: '13:30', title: 'Breakouts', short: 'Breakouts', note: 'Sustainability · Digital and AI · Talent and inclusion', photo: 'breakouts', alt: 'Round-table breakout discussion' },
+      { time: '18:30', title: 'DISCOVER Gala', short: 'Gala', note: 'Dinner, awards and celebration', photo: 'gala', alt: 'Award presented on stage at the DISCOVER Gala' },
     ],
   },
   {
     key: 'd2', label: 'Day 2', theme: 'Grow',
     slots: [
-      { time: '08:30', title: 'Leadership breakfast', note: 'Small-table conversations with executives', photo: 'breakfast', alt: 'Attendees talking over breakfast' },
-      { time: '09:30', title: 'Career workshops and executive coaching', note: 'Led by sponsor leaders', photo: 'workshop', alt: 'Workshop teams presenting their flip-chart ideas' },
-      { time: '11:30', title: 'Career fair and company showcase', note: 'Meet partner companies and university talent', photo: 'career-fair', alt: 'Attendees meeting and networking in the ballroom' },
-      { time: '13:30', title: 'Closing keynote', note: 'The next decade of supply chain leadership', photo: 'closing-keynote', alt: 'Closing keynote speaker on stage' },
-      { time: '15:00', title: 'Farewell and networking', note: 'Until next year', photo: 'farewell', alt: 'DISCOVER Summit attendees in a group photo' },
+      { time: '08:30', title: 'Leadership breakfast', short: 'Breakfast', note: 'Small-table conversations with executives', photo: 'breakfast', alt: 'Attendees talking over breakfast' },
+      { time: '09:30', title: 'Career workshops and executive coaching', short: 'Workshops', note: 'Led by sponsor leaders', photo: 'workshop', alt: 'Workshop teams presenting their flip-chart ideas' },
+      { time: '11:30', title: 'Career fair and company showcase', short: 'Career fair', note: 'Meet partner companies and university talent', photo: 'career-fair', alt: 'Attendees meeting and networking in the ballroom' },
+      { time: '13:30', title: 'Closing keynote', short: 'Closing', note: 'The next decade of supply chain leadership', photo: 'closing-keynote', alt: 'Closing keynote speaker on stage' },
+      { time: '15:00', title: 'Farewell and networking', short: 'Farewell', note: 'Until next year', photo: 'farewell', alt: 'DISCOVER Summit attendees in a group photo' },
     ],
   },
 ];
 
-const VOICES = [
-  { photo: 'voice-keynote', label: 'Keynote', pos: '72% 30%' },
-  { photo: 'voice-panel-2', label: 'Executive panel', pos: '50% 30%' },
-  { photo: 'voice-keynote-2', label: 'Keynote', pos: '40% 30%' },
-  { photo: 'voice-panel', label: 'Fireside chat', pos: '55% 35%' },
-  { photo: 'voice-keynote-3', label: 'Closing keynote', pos: '45% 30%' },
-  { photo: 'voice-stage', label: 'Recognition', pos: '45% 40%' },
+
+const SPEAKERS = [
+  { photo: 'voice-keynote-2', role: 'Keynote · 2026 Summit', session: 'Leading supply chains through disruption', pos: '78% 30%' },
+  { photo: 'voice-panel-2', role: 'Executive panel', session: 'What the next decade asks of supply chain leaders', pos: '50% 30%' },
+  { photo: 'voice-keynote', role: 'Keynote', session: 'Building the bench: talent as a supply chain', pos: '12% 40%' },
+  { photo: 'voice-panel', role: 'Fireside chat', session: 'Careers that cross industries', pos: '22% 35%' },
+  { photo: 'voice-keynote-3', role: 'Closing keynote', session: 'From data to decisions', pos: '40% 30%' },
+  { photo: 'voice-stage', role: 'Recognition', session: 'Celebrating the people who move the world', pos: '62% 40%' },
 ];
 
 const STORIES = [
@@ -168,29 +171,16 @@ export default function SummitPage() {
       <section className="mist" id="agenda">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><div className="tag">Experience the Summit</div><h2>A look at what your two days will feel like.</h2></div>
-            <p>Tap a moment to see it. Based on the 2026 format; the full 2027 agenda and speakers are announced in spring.</p>
+            <div><div className="tag">Experience the Summit</div><h2>Your two days, mapped like a supply chain route.</h2></div>
+            <p>Follow the truck from badge pick-up to the Gala, or tap any stop. Based on the 2026 format; the full 2027 agenda is announced in spring.</p>
           </div>
-          <div className="reveal"><DayTimeline days={DAYS} /></div>
+          <div className="reveal"><RouteAgenda days={DAYS} /></div>
         </div>
       </section>
 
       {/* 04 · Speakers & leaders */}
-      <section>
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <div><div className="tag">Speakers &amp; leaders</div><h2>Meet the people shaping the conversation.</h2></div>
-            <p>Executives, practitioners and rising leaders take the DISCOVER stage every year. Here are moments from the 2026 Summit; 2027 speakers are announced in spring.</p>
-          </div>
-          <div className="voices reveal stagger">
-            {VOICES.map((v) => (
-              <figure className="voice" key={v.photo}>
-                <Photo name={v.photo} alt={`${v.label} at the 2026 DISCOVER Summit`} sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw" pos={v.pos} />
-                <figcaption><span>2026 Summit</span>{v.label}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
+      <section className="dark s-deck">
+        <div className="wrap reveal"><SpeakerDeck items={SPEAKERS} /></div>
       </section>
 
       {/* 05 · Real voices */}
@@ -271,6 +261,11 @@ export default function SummitPage() {
           </div>
           <p className="indicative">Gala-only guest passes available at $49 · Pricing indicative for the 2027 proposal</p>
         </div>
+      </section>
+
+      {/* Personal pass */}
+      <section className="s-pass">
+        <div className="wrap reveal"><SummitPass /></div>
       </section>
 
       {/* 08 · Corporate sponsorship */}
