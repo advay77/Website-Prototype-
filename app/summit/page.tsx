@@ -22,21 +22,21 @@ const DAYS = [
   {
     key: 'd1', label: 'Day 1', theme: 'Connect',
     slots: [
-      { time: '08:30', title: 'Registration and breakfast', short: 'Arrive', note: 'Badge pick-up, coffee, first connections', photo: 'registration', alt: 'Attendees checking in at the registration desk' },
-      { time: '09:30', title: "President's welcome and opening keynote", short: 'Keynote', note: 'Presented by the 2027 Summit Host Partner', photo: 'keynote', alt: 'Keynote speaker at the DISCOVER podium' },
-      { time: '11:00', title: 'Executive panel: leading through disruption', short: 'Panel', note: 'Cross-industry CSCO and VP perspectives', photo: 'panel', alt: 'Executive panel on the DISCOVER stage' },
-      { time: '13:30', title: 'Breakouts', short: 'Breakouts', note: 'Sustainability · Digital and AI · Talent and inclusion', photo: 'breakouts', alt: 'Round-table breakout discussion' },
-      { time: '18:30', title: 'DISCOVER Gala', short: 'Gala', note: 'Dinner, awards and celebration', photo: 'gala', alt: 'Award presented on stage at the DISCOVER Gala' },
+      { time: '08:30', title: 'Registration and breakfast', short: 'Arrive', note: 'Badge pick-up, coffee, first connections', photo: 'registration', stop: 'registration', alt: 'Attendees checking in at the registration desk' },
+      { time: '09:30', title: "President's welcome and opening keynote", short: 'Keynote', note: 'Presented by the 2027 Summit Host Partner', photo: 'keynote', stop: 'keynote', alt: 'Keynote speaker at the DISCOVER podium' },
+      { time: '11:00', title: 'Executive panel: leading through disruption', short: 'Panel', note: 'Cross-industry CSCO and VP perspectives', photo: 'panel', stop: 'panel', alt: 'Executive panel on the DISCOVER stage' },
+      { time: '13:30', title: 'Breakouts', short: 'Breakouts', note: 'Sustainability · Digital and AI · Talent and inclusion', photo: 'breakouts', stop: 'breakouts', alt: 'Round-table breakout discussion' },
+      { time: '18:30', title: 'DISCOVER Gala', short: 'Gala', note: 'Dinner, awards and celebration', photo: 'gala', stop: 'gala', alt: 'Award presented on stage at the DISCOVER Gala' },
     ],
   },
   {
     key: 'd2', label: 'Day 2', theme: 'Grow',
     slots: [
-      { time: '08:30', title: 'Leadership breakfast', short: 'Breakfast', note: 'Small-table conversations with executives', photo: 'breakfast', alt: 'Attendees talking over breakfast' },
-      { time: '09:30', title: 'Career workshops and executive coaching', short: 'Workshops', note: 'Led by sponsor leaders', photo: 'workshop', alt: 'Workshop teams presenting their flip-chart ideas' },
-      { time: '11:30', title: 'Career fair and company showcase', short: 'Career fair', note: 'Meet partner companies and university talent', photo: 'career-fair', alt: 'Attendees meeting and networking in the ballroom' },
-      { time: '13:30', title: 'Closing keynote', short: 'Closing', note: 'The next decade of supply chain leadership', photo: 'closing-keynote', alt: 'Closing keynote speaker on stage' },
-      { time: '15:00', title: 'Farewell and networking', short: 'Farewell', note: 'Until next year', photo: 'farewell', alt: 'DISCOVER Summit attendees in a group photo' },
+      { time: '08:30', title: 'Leadership breakfast', short: 'Breakfast', note: 'Small-table conversations with executives', photo: 'breakfast', stop: 'breakfast', alt: 'Attendees talking over breakfast' },
+      { time: '09:30', title: 'Career workshops and executive coaching', short: 'Workshops', note: 'Led by sponsor leaders', photo: 'workshop', stop: 'workshop', alt: 'Workshop teams presenting their flip-chart ideas' },
+      { time: '11:30', title: 'Career fair and company showcase', short: 'Career fair', note: 'Meet partner companies and university talent', photo: 'career-fair', stop: 'career-fair', alt: 'Attendees meeting and networking in the ballroom' },
+      { time: '13:30', title: 'Closing keynote', short: 'Closing', note: 'The next decade of supply chain leadership', photo: 'closing-keynote', stop: 'closing', alt: 'Closing keynote speaker on stage' },
+      { time: '15:00', title: 'Farewell and networking', short: 'Farewell', note: 'Until next year', photo: 'farewell', stop: 'farewell', alt: 'DISCOVER Summit attendees in a group photo' },
     ],
   },
 ];

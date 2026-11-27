@@ -311,8 +311,27 @@
 .route-stop.on:hover i { transform: scale(1.45); }
 .route-card { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; border-radius: 22px; overflow: hidden; background: var(--ink); color: #fff; animation: cardIn .7s cubic-bezier(.2,.8,.2,1); }
 @keyframes cardIn { from { opacity: 0; transform: translateY(18px) scale(.985); } }
-.route-ph { position: relative; min-height: 300px; overflow: hidden; }
-.route-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: kb 6s ease-out both; }
+.route-ph { position: relative; min-height: 380px; overflow: hidden; background: var(--ink); }
+.route-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.08); transition: opacity .9s ease, transform 6s ease-out; }
+.route-ph img.on { opacity: 1; transform: scale(1); }
+.route-ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(8,22,52,.7)); pointer-events: none; }
+/* photo bubbles */
+.bubbles { position: absolute; left: 18px; bottom: 20px; z-index: 2; display: flex; gap: 10px; align-items: flex-end; }
+.bubble { position: relative; width: 52px; height: 52px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; animation: bob 3.4s ease-in-out infinite; }
+.bubble span { position: absolute; inset: 0; border-radius: 50%; background: #fff center / cover; border: 3px solid rgba(255,255,255,.85); box-shadow: 0 10px 24px -8px rgba(0,0,0,.6); transition: transform .45s cubic-bezier(.2,.8,.2,1), border-color .3s, box-shadow .3s; }
+.bubble:hover span { transform: scale(1.12); }
+.bubble.on span { transform: scale(1.28); border-color: var(--sky); box-shadow: 0 0 0 4px rgba(92,184,240,.35), 0 14px 28px -8px rgba(0,0,0,.7); }
+.bubble:focus-visible { outline: none; }
+.bubble:focus-visible span { box-shadow: 0 0 0 4px var(--sky); }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.route-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; z-index: 2; background: rgba(255,255,255,.15); }
+.route-progress i { display: block; height: 100%; background: var(--sky); transform-origin: left; animation: fill 2.6s linear both; }
+.route-progress i.held { animation: none; transform: scaleX(1); opacity: .5; }
+@keyframes fill { from { transform: scaleX(0); } }
+/* photo count on map stops */
+.route-stop i { position: relative; }
+.route-stop i em { position: absolute; right: -8px; top: -6px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; background: var(--navy); color: #fff; font: 700 10px/18px var(--body); font-style: normal; text-align: center; box-shadow: 0 0 0 2px #fff; transition: transform .4s; }
+.route-stop.on i em { transform: scale(.7); }
 @keyframes kb { from { transform: scale(1.12); } }
 .route-txt { padding: 34px 36px; display: flex; flex-direction: column; }
 .route-txt .tag { color: var(--sky); }
@@ -388,7 +407,10 @@
   .route-truck { width: 46px; height: 29px; top: 2px; }
   .route-line, .route-done { top: 62px; }
   .route-card { grid-template-columns: 1fr; }
-  .route-ph { min-height: 220px; }
+  .route-ph { min-height: 0; aspect-ratio: 4/3; }
+  .bubbles { left: 12px; bottom: 14px; gap: 7px; }
+  .bubble { width: 40px; height: 40px; }
+  .route-stop i em { min-width: 15px; height: 15px; font-size: 9px; line-height: 15px; right: -6px; top: -5px; }
   .route-txt { padding: 22px 22px 24px; }
   .route-txt h3 { font-size: 1.45rem; }
   .route-tabs { min-width: 0; width: 100%; }
@@ -402,5 +424,5 @@
   .pass-card { width: 300px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .route-line, .route-truck, .pass-swing, .pass-shine, .route-ph img { animation: none; }
+  .route-line, .route-truck, .pass-swing, .pass-shine, .route-ph img, .bubble, .route-progress i { animation: none; }
 }

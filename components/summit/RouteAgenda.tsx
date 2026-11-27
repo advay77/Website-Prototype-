@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-type Slot = { time: string; title: string; short: string; note: string; photo: string; alt: string };
+type Slot = { time: string; title: string; short: string; note: string; photo: string; alt: string; stop?: string };
+
+const PER_STOP = 5;
+const PHOTO_MS = 2600;
+const img = (stop: string, k: number, w: 400 | 1600) => `/assets/summit/stops/${stop}-${k}-${w}.jpg`;
 type Day = { key: string; label: string; theme: string; slots: Slot[] };
 
 const Truck = () => (
@@ -26,6 +30,8 @@ export function RouteAgenda({ days }: { days: Day[] }) {
   const [stop, setStop] = useState(0);
   const [auto, setAuto] = useState(true);
   const [visible, setVisible] = useState(false);
+  const [shot, setShot] = useState(0);
+  const [hold, setHold] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const d = days[day];
   const n = d.slots.length;
@@ -42,9 +48,19 @@ export function RouteAgenda({ days }: { days: Day[] }) {
     const id = setTimeout(() => {
       if (stop < n - 1) setStop(stop + 1);
       else { setDay((day + 1) % days.length); setStop(0); }
-    }, 3600);
+    }, PHOTO_MS * PER_STOP);
     return () => clearTimeout(id);
   }, [auto, visible, stop, day, n, days.length]);
+
+  // New stop: start from its first photo.
+  useEffect(() => setShot(0), [day, stop]);
+
+  // Photos inside the stop rotate on their own, unless the pointer rests on them.
+  useEffect(() => {
+    if (!visible || hold || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = setInterval(() => setShot((k) => (k + 1) % PER_STOP), PHOTO_MS);
+    return () => clearInterval(id);
+  }, [visible, hold, day, stop]);
 
   const pick = (i: number) => { setAuto(false); setStop(i); };
   const s = d.slots[stop];
@@ -68,7 +84,7 @@ export function RouteAgenda({ days }: { days: Day[] }) {
         <div className="route-truck" style={{ left: `${pos(stop)}%` }}><Truck /></div>
         {d.slots.map((sl, i) => (
           <button key={`${day}-${sl.time}`} className={`route-stop${i === stop ? ' on' : ''}${i < stop ? ' past' : ''}`} style={{ left: `${pos(i)}%` }} onClick={() => pick(i)} aria-pressed={i === stop} aria-label={`${sl.time} ${sl.title}`}>
-            <i style={{ backgroundImage: `url(/assets/summit/${sl.photo}-800.jpg)` }} />
+            <i style={{ backgroundImage: `url(${sl.stop ? img(sl.stop, 0, 400) : `/assets/summit/${sl.photo}-800.jpg`})` }}>{sl.stop && <em>{PER_STOP}</em>}</i>
             <b>{sl.short}</b>
             <small>{sl.time}</small>
           </button>
@@ -76,7 +92,25 @@ export function RouteAgenda({ days }: { days: Day[] }) {
       </div>
 
       <div className="route-card" key={`${day}-${stop}`}>
-        <div className="route-ph"><img src={`/assets/summit/${s.photo}-1600.jpg`} srcSet={`/assets/summit/${s.photo}-800.jpg 800w, /assets/summit/${s.photo}-1600.jpg 1600w`} sizes="(max-width: 980px) 100vw, 40vw" alt={s.alt} /></div>
+        <div className="route-ph" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
+          {s.stop ? (
+            <>
+              {Array.from({ length: PER_STOP }, (_, k) => (
+                <img key={k} className={k === shot ? 'on' : ''} src={img(s.stop!, k, 1600)} alt={k === shot ? `${s.alt} (${k + 1} of ${PER_STOP})` : ''} loading={k === 0 ? 'eager' : 'lazy'} aria-hidden={k !== shot} />
+              ))}
+              <div className="bubbles" role="group" aria-label="Photos from this moment">
+                {Array.from({ length: PER_STOP }, (_, k) => (
+                  <button key={k} className={`bubble${k === shot ? ' on' : ''}`} style={{ animationDelay: `${k * -0.7}s` }} onClick={() => { setShot(k); setHold(true); setAuto(false); }} aria-label={`Photo ${k + 1} of ${PER_STOP}`} aria-pressed={k === shot}>
+                    <span style={{ backgroundImage: `url(${img(s.stop!, k, 400)})` }} />
+                  </button>
+                ))}
+              </div>
+              <div className="route-progress" key={`${day}-${stop}-${shot}-${hold}`}><i className={hold ? 'held' : ''} /></div>
+            </>
+          ) : (
+            <img className="on" src={`/assets/summit/${s.photo}-1600.jpg`} alt={s.alt} />
+          )}
+        </div>
         <div className="route-txt">
           <div className="tag">Stop {stop + 1} · {s.time} · {d.label}</div>
           <h3>{s.title}</h3>
