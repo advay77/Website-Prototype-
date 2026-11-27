@@ -146,6 +146,10 @@ export default function SummitPage() {
             <h2>Small enough to meet everyone. Senior enough to matter.</h2>
             <p>A two-day experience to learn, connect and grow with the supply chain community. No 8,000-person expo halls.</p>
           </div>
+          <div className="s-partners s-partners-why reveal">
+            <p>Leaders from these organizations have been in the room</p>
+            <Marquee>{LOGOS.map(([f, n]) => <img key={f} src={`/assets/logos/${f}`} alt={n} />)}</Marquee>
+          </div>
           <div className="why reveal stagger">
             {[
               ['learn', 'Learn', 'Insights from the leaders shaping what’s next: keynotes and candid panels from CPOs, VPs and directors at J&J, Pfizer, Merck, Walmart, Hershey and more.', 'voice-keynote'],
@@ -296,10 +300,6 @@ export default function SummitPage() {
                 <Link className="btn btn-ghost" href="/sponsors#host">Host the Summit</Link>
               </div>
             </div>
-          </div>
-          <div className="s-partners reveal">
-            <p>Leaders from these organizations have been in the room</p>
-            <Marquee>{LOGOS.map(([f, n]) => <img key={f} src={`/assets/logos/${f}`} alt={n} />)}</Marquee>
           </div>
         </div>
       </section>

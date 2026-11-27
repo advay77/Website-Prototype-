@@ -30,8 +30,8 @@ const p = (y: string, n: number) => ({ src: `/assets/years/${y}-${String(n).padS
 const s = (name: string) => ({ src: `/assets/summit/${name}-1600.jpg`, thumb: `/assets/summit/${name}-800.jpg` });
 
 /** The same kind of moment, every year. */
-export const MOMENTS: { key: string; label: string; shots: Record<string, { src: string; thumb: string }> }[] = [
+export const MOMENTS: { key: string; label: string; shots: Record<string, { src: string; thumb: string; pos?: string }> }[] = [
   { key: 'group', label: 'The group photo', shots: { 2017: p('2017', 1), 2018: p('2018', 19), 2019: p('2019', 1), 2022: p('2022', 1), 2023: p('2023', 1), 2024: p('2024', 10), 2026: s('group-stairs') } },
-  { key: 'stage', label: 'On stage', shots: { 2017: p('2017', 7), 2018: p('2018', 15), 2019: p('2019', 12), 2022: p('2022', 11), 2023: p('2023', 11), 2024: p('2024', 2), 2026: s('panel') } },
+  { key: 'stage', label: 'On stage', shots: { 2017: p('2017', 7), 2018: p('2018', 15), 2019: p('2019', 12), 2022: { ...p('2022', 11), pos: '88% 50%' }, 2023: p('2023', 11), 2024: p('2024', 2), 2026: s('panel') } },
   { key: 'network', label: 'Between sessions', shots: { 2017: p('2017', 12), 2018: p('2018', 9), 2019: p('2019', 8), 2022: p('2022', 9), 2023: p('2023', 6), 2024: p('2024', 8), 2026: s('networking') } },
 ];
