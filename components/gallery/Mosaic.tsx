@@ -17,7 +17,6 @@ const ramp = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
 export function Mosaic() {
   const root = useRef<HTMLElement>(null);
   const cv = useRef<HTMLCanvasElement>(null);
-  const intro = useRef<HTMLDivElement>(null);
   const outro = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -62,7 +61,7 @@ export function Mosaic() {
       if (!ready) return;
       const { p, assemble } = state;
       const s = Math.min((W * 0.9) / cols, (H * 0.62) / rows);          // tile size at rest
-      const ox = (W - cols * s) / 2, oy = (H - rows * s) / 2 - H * 0.1 * (1 - ramp(p, 0, 0.3));
+      const ox = (W - cols * s) / 2, oy = (H - rows * s) / 2;
       const f = cells[focal];
       const fx = ox + (f.c + 0.5) * s, fy = oy + (f.r + 0.5) * s;
       const zMax = (Math.max(W, H) * 1.15) / s;
@@ -121,7 +120,6 @@ export function Mosaic() {
       // The dive ends on a calm navy screen for the closing line (no single photo).
       const fade = ramp(p, 0.4, 0.68);
       if (fade > 0) { ctx.globalAlpha = fade; ctx.fillStyle = '#081634'; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
-      if (intro.current) { const v = 1 - ramp(p, 0.04, 0.18); intro.current.style.opacity = String(v * clamp(assemble * 1.4 - 0.4)); intro.current.style.transform = `translateY(${-30 * (1 - v)}px)`; }
       if (outro.current) { const v = ramp(p, 0.84, 0.95); outro.current.style.opacity = String(v); outro.current.style.transform = `translateY(${20 * (1 - v)}px)`; }
     };
 
@@ -147,14 +145,10 @@ export function Mosaic() {
   }, []);
 
   return (
-    <section ref={root} className="mosaic" aria-label={`${GALLERY.items.length} Summit photos forming the DISCOVER logo`}>
+    <section ref={root} className="mosaic" aria-label={`The DISCOVER gallery: ${GALLERY.items.length} Summit photos forming the DISCOVER logo`}>
       <div className="mosaic-stick">
+        <h1 className="sr-only">The DISCOVER gallery: {GALLERY.items.length} Summit photos, 2017–2026</h1>
         <canvas ref={cv} className="mosaic-cv" aria-hidden="true" />
-        <div ref={intro} className="mosaic-intro wrap">
-          <div className="tag">The DISCOVER gallery · 2017–2026</div>
-          <h1>{GALLERY.items.length} moments.<br /><em>One network.</em></h1>
-          <p>Every tile in this logo is a real photo from a DISCOVER Summit. Scroll to step inside.</p>
-        </div>
         <div ref={outro} className="mosaic-outro">
           <b>Now explore every one of them.</b>
           <span>Drag the wall below in any direction ↓</span>
