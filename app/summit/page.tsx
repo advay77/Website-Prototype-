@@ -223,6 +223,7 @@ export default function SummitPage() {
             <p>Follow the truck from our first gathering in 2017 to the Decade of DISCOVER. Tap a year to see its photos.</p>
           </div>
           <div className="reveal"><YearRoute years={YEARS} /></div>
+          <div className="yr-gallery reveal"><Link className="btn btn-white" href="/gallery">Explore all 691 photos <span className="arr">→</span></Link></div>
         </div>
       </section>
 

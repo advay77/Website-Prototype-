@@ -510,3 +510,4 @@
 .s-partners-why .marquee img { height: 88px; padding: 4px 6px; opacity: .85; filter: grayscale(.6); }
 .s-partners-why .marquee img:hover { opacity: 1; filter: none; }
 @media (max-width: 600px) { .s-partners-why .marquee img { height: 64px; } }
+.yr-gallery { display: flex; justify-content: center; margin-top: 28px; }
