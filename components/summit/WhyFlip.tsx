@@ -38,7 +38,6 @@ export function WhyFlip({ cards }: { cards: Card[] }) {
               <button className="fc-face fc-front" onClick={() => setOpen(c.key)} aria-expanded={flipped} aria-label={`${c.title}: show what you get`} tabIndex={flipped ? -1 : 0}>
                 <Photo name={c.photo} alt="" sizes="(max-width: 980px) 100vw, 33vw" />
                 <span className="fc-shade" />
-                <span className="fc-num">0{i + 1}</span>
                 <span className="fc-front-txt">
                   <span className="why-ico">{c.icon}</span>
                   <b>{c.title}</b>

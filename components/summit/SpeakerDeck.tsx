@@ -31,7 +31,6 @@ export function SpeakerDeck({ items }: { items: Speaker[] }) {
   return (
     <div className="deck" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className="deck-copy">
-        <div className="tag">Speakers &amp; leaders · 2027 line-up in spring</div>
         <h2>Meet the people on stage.</h2>
         <p>Executives, practitioners and rising leaders from across the industry. These are moments from the 2026 stage; drag the cards or use the arrows.</p>
         <div className="deck-now" key={i}>

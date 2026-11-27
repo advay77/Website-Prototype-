@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MOMENTS } from '@/lib/years';
 
-const EVERY = 4000;
+const EVERY = 3500;
 
 /**
  * "Same moment, every year", as a departures board: every few seconds the
@@ -62,7 +62,7 @@ export function SameMoment() {
         ))}
         <div className="board-bar" key={`bar-${tick}-${hold}`}><i className={hold || !visible ? 'held' : ''} /></div>
       </div>
-      <p className="same-note">Seven Summits, side by side. The board flips to a new moment every few seconds; hover to hold it.</p>
+      <p className="same-note">Eight Summits, side by side. The board flips to a new moment every few seconds; hover to hold it.</p>
     </div>
   );
 }

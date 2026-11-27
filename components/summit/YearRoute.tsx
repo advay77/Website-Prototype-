@@ -1,16 +1,15 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Truck } from './RouteAgenda';
 import { Lightbox } from './Lightbox';
 import type { Year } from '@/lib/years';
 
 const BUBBLES = 6;
-const PHOTO_MS = 4000;
+const PHOTO_MS = 3500;
 
 /**
- * "Ten Summits, one route": the truck drives from 2017 to 2026. Each year
- * shows its photos one at a time with photo bubbles; "+N" opens them all.
+ * Every Summit from 2017 to 2026 as a row of photo circles (no truck). Each
+ * year shows its photos one at a time; "View all" opens them all.
  */
 export function YearRoute({ years }: { years: Year[] }) {
   const [at, setAt] = useState(0);
@@ -55,7 +54,7 @@ export function YearRoute({ years }: { years: Year[] }) {
   const cur = shown[shot];
 
   return (
-    <div className="route yroute" ref={root}>
+    <div className="route yroute no-truck" ref={root}>
       <div className="route-top">
         <span className="route-eta"><i />{y.year} · {y.city}</span>
         <span className="yr-count">{years.length} Summits · since {years[0].year}</span>
@@ -64,8 +63,6 @@ export function YearRoute({ years }: { years: Year[] }) {
       <div className="yr-scroll" ref={scroller}>
         <div className="route-map yr-map">
           <div className="route-line" style={{ left: '5%', right: '5%' }} />
-          <div className="route-done" style={{ left: '5%', maxWidth: '90%', width: `${pos(at) - 5}%` }} />
-          <div className="route-truck" style={{ left: `${pos(at)}%` }}><Truck /></div>
           {years.map((v, i) => (
             <button key={v.year} className={`route-stop${i === at ? ' on' : ''}${i < at ? ' past' : ''}${v.shots.length ? '' : ' empty'}`} style={{ left: `${pos(i)}%` }} onClick={() => pick(i)} aria-pressed={i === at} aria-label={`${v.year}, ${v.city}`}>
               <i style={v.shots[0] ? { backgroundImage: `url(${v.shots[0].thumb})` } : undefined}>
@@ -107,7 +104,7 @@ export function YearRoute({ years }: { years: Year[] }) {
           )}
         </div>
         <div className="route-txt">
-          <div className="tag">Summit {String(at + 1).padStart(2, '0')} · {y.year}</div>
+          <div className="yr-num">{y.year}</div>
           <h3>{y.city}</h3>
           <p>{y.note}</p>
           <div className="route-nav">

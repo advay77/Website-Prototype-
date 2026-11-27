@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { GALLERY, large } from '@/lib/gallery';
+import { GALLERY } from '@/lib/gallery';
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const ramp = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
@@ -11,13 +11,12 @@ const ramp = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
 /**
  * Every Summit photo, drawn as one tile each, forms the DISCOVER logo.
  * Scrolling dives into the mosaic: the tint falls away, tiles become real
- * photos and one of them opens up to fill the screen.
+ * photos and the view flies through the logo. At rest, the tiles under the
+ * pointer magnify like a dock and lose their tint so the real photos show.
  */
 export function Mosaic() {
   const root = useRef<HTMLElement>(null);
   const cv = useRef<HTMLCanvasElement>(null);
-  const big = useRef<HTMLImageElement>(null);
-  const intro = useRef<HTMLDivElement>(null);
   const outro = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,9 +27,11 @@ export function Mosaic() {
     const atlas = new Image(), logo = new Image();
     atlas.src = '/assets/gallery/atlas.jpg'; logo.src = '/assets/img/discover-logo.png';
 
-    type Cell = { c: number; r: number; on: boolean; col: string; photo: number; sx: number; sy: number; d: number };
+    type Cell = { c: number; r: number; on: boolean; col: string; photo: number; sx: number; sy: number; d: number; lift: number };
     let cells: Cell[] = [], cols = 0, rows = 0, focal = 0, ready = false;
     const state = { assemble: reduce ? 1 : 0, p: 0 };
+    const ptr = { x: -9999, y: -9999, auto: true, t: 0 };
+    let raf = 0, visible = true;
     let W = 0, H = 0, dpr = 1;
 
     const build = () => {
@@ -44,12 +45,11 @@ export function Mosaic() {
         const j = (r * cols + c) * 4, a = px[j + 3];
         const on = a > 90;
         const photo = on ? (k++ * 37) % N : ((r * cols + c) * 13) % N;
-        cells.push({ c, r, on, col: `rgb(${px[j]},${px[j + 1]},${px[j + 2]})`, photo, sx: (photo % AC) * T, sy: Math.floor(photo / AC) * T, d: Math.random() });
+        cells.push({ c, r, on, col: `rgb(${px[j]},${px[j + 1]},${px[j + 2]})`, photo, sx: (photo % AC) * T, sy: Math.floor(photo / AC) * T, d: Math.random(), lift: 0 });
       }
       // focal tile: a filled cell near the middle of the logo
       const mid = cells.filter((x) => x.on).sort((a, b) => Math.hypot(a.c - cols * 0.5, a.r - rows * 0.5) - Math.hypot(b.c - cols * 0.5, b.r - rows * 0.5));
       focal = cells.indexOf(mid[0]);
-      if (big.current) big.current.src = large(cells[focal].photo);
     };
 
     const size = () => {
@@ -61,7 +61,7 @@ export function Mosaic() {
       if (!ready) return;
       const { p, assemble } = state;
       const s = Math.min((W * 0.9) / cols, (H * 0.62) / rows);          // tile size at rest
-      const ox = (W - cols * s) / 2, oy = (H - rows * s) / 2 - H * 0.1 * (1 - ramp(p, 0, 0.3));
+      const ox = (W - cols * s) / 2, oy = (H - rows * s) / 2;
       const f = cells[focal];
       const fx = ox + (f.c + 0.5) * s, fy = oy + (f.r + 0.5) * s;
       const zMax = (Math.max(W, H) * 1.15) / s;
@@ -73,28 +73,53 @@ export function Mosaic() {
       const gap = Math.max(0.5, s * 0.08);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.fillStyle = '#081634'; ctx.fillRect(0, 0, W, H);
+      // Magnifier: only while the logo is at rest (not mid-dive).
+      const mag = reduce ? 0 : (1 - ramp(p, 0, 0.04)) * ramp(assemble, 0.85, 1);
+      if (mag > 0 && ptr.auto) { ptr.t += 0.006; ptr.x = W * (0.5 + 0.38 * Math.sin(ptr.t * 1.2)); ptr.y = oy + rows * s * (0.5 + 0.3 * Math.sin(ptr.t * 2.1)); }
+      const sigma = Math.max(40, s * 3.2);
+      let moving = false;
+      const top: { cl: Cell; X: number; Y: number; S: number }[] = [];
       for (const cl of cells) {
-        if (!cl.on && ghost < 0.01) continue;
         // intro: tiles fly in from scattered spots
         const a = clamp((assemble - cl.d * 0.55) / 0.45);
         const e = 1 - Math.pow(1 - a, 3);
         let x = ox + cl.c * s, y = oy + cl.r * s;
         if (e < 1) { const ang = cl.d * 40, rad = (1 - e) * Math.max(W, H) * 0.7; x += Math.cos(ang) * rad; y += Math.sin(ang) * rad; }
-        const X = cx + (x - fx) * z, Y = cy + (y - fy) * z, S = s * z;
+        let X = cx + (x - fx) * z, Y = cy + (y - fy) * z, S = s * z;
+        const target = mag > 0 ? mag * Math.exp(-(((X + S / 2 - ptr.x) ** 2) + ((Y + S / 2 - ptr.y) ** 2)) / (2 * sigma * sigma)) : 0;
+        cl.lift += (target - cl.lift) * 0.2; if (Math.abs(target - cl.lift) > 0.004) moving = true;
+        if (!cl.on && ghost + cl.lift * 0.5 < 0.01) continue;
+        if (cl.lift > 0.02) {
+          const dx = X + S / 2 - ptr.x, dy = Y + S / 2 - ptr.y, dd = Math.hypot(dx, dy) || 1;
+          const grow = 1 + cl.lift * (cl.on ? 2.4 : 0.7), push = cl.lift * s * (cl.on ? 1.3 : 0.5);
+          const S2 = S * grow; X = X + S / 2 + (dx / dd) * push - S2 / 2; Y = Y + S / 2 + (dy / dd) * push - S2 / 2; S = S2;
+          if (cl.on && cl.lift > 0.05) { top.push({ cl, X, Y, S }); continue; }
+        }
         if (X > W || Y > H || X + S < 0 || Y + S < 0) continue;
-        ctx.globalAlpha = (cl.on ? 1 : ghost) * e;
-        ctx.drawImage(atlas, cl.sx, cl.sy, T, T, X + gap * z * 0.5, Y + gap * z * 0.5, S - gap * z, S - gap * z);
-        if (cl.on && tint > 0.01) { ctx.globalAlpha = tint * e; ctx.fillStyle = cl.col; ctx.fillRect(X + gap * z * 0.5, Y + gap * z * 0.5, S - gap * z, S - gap * z); }
+        const g = gap * z * 0.5;
+        ctx.globalAlpha = (cl.on ? 1 : ghost + cl.lift * 0.5) * e;
+        ctx.drawImage(atlas, cl.sx, cl.sy, T, T, X + g, Y + g, S - g * 2, S - g * 2);
+        const t = cl.on ? tint * (1 - Math.min(1, cl.lift * 1.6)) : 0;
+        if (t > 0.01) { ctx.globalAlpha = t * e; ctx.fillStyle = cl.col; ctx.fillRect(X + g, Y + g, S - g * 2, S - g * 2); }
       }
+      // Magnified tiles last, biggest on top, with a soft shadow.
+      top.sort((m, n2) => m.cl.lift - n2.cl.lift);
+      for (const { cl, X, Y, S } of top) {
+        const r = Math.min(8, S * 0.14);
+        ctx.globalAlpha = 1; ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 16 * cl.lift; ctx.shadowOffsetY = 5 * cl.lift;
+        ctx.beginPath(); ctx.roundRect(X, Y, S, S, r); ctx.fillStyle = '#0b1a36'; ctx.fill(); ctx.restore();
+        ctx.save(); ctx.beginPath(); ctx.roundRect(X, Y, S, S, r); ctx.clip();
+        ctx.drawImage(atlas, cl.sx, cl.sy, T, T, X, Y, S, S);
+        const t = tint * (1 - Math.min(1, cl.lift * 1.6));
+        if (t > 0.01) { ctx.globalAlpha = t; ctx.fillStyle = cl.col; ctx.fillRect(X, Y, S, S); }
+        ctx.restore();
+      }
+      if (visible && mag > 0 && (ptr.auto || moving)) { if (!raf) raf = requestAnimationFrame(() => { raf = 0; draw(); }); }
       ctx.globalAlpha = 1;
-      // The focal photo's full-size image rides on its tile and takes over as the tile grows.
-      if (big.current) {
-        const F = s * z, X = cx + (ox + f.c * s - fx) * z, Y = cy + (oy + f.r * s - fy) * z;
-        const el = big.current;
-        el.style.left = `${X}px`; el.style.top = `${Y}px`; el.style.width = `${F}px`; el.style.height = `${F}px`;
-        el.style.opacity = String(ramp(F, 180, 520));
-      }
-      if (intro.current) { const v = 1 - ramp(p, 0.04, 0.18); intro.current.style.opacity = String(v * clamp(assemble * 1.4 - 0.4)); intro.current.style.transform = `translateY(${-30 * (1 - v)}px)`; }
+      // The dive ends on a calm navy screen for the closing line (no single photo).
+      const fade = ramp(p, 0.4, 0.68);
+      if (fade > 0) { ctx.globalAlpha = fade; ctx.fillStyle = '#081634'; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
       if (outro.current) { const v = ramp(p, 0.84, 0.95); outro.current.style.opacity = String(v); outro.current.style.transform = `translateY(${20 * (1 - v)}px)`; }
     };
 
@@ -107,21 +132,23 @@ export function Mosaic() {
       st = ScrollTrigger.create({ trigger: root.current!, start: 'top top', end: 'bottom bottom', scrub: 0.6, onUpdate: (self) => { state.p = self.progress; draw(); } });
     };
     atlas.onload = go; logo.onload = go;
+    const kick = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; draw(); }); };
+    const sec = root.current!;
+    const onMove = (e: PointerEvent) => { const r = canvas.getBoundingClientRect(); ptr.auto = false; ptr.x = e.clientX - r.left; ptr.y = e.clientY - r.top; kick(); };
+    const onLeave = () => { ptr.auto = true; kick(); };
+    sec.addEventListener('pointermove', onMove); sec.addEventListener('pointerleave', onLeave);
+    const io = new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) kick(); });
+    io.observe(sec);
     const onResize = () => { build(); size(); draw(); };
     addEventListener('resize', onResize);
-    return () => { st?.kill(); removeEventListener('resize', onResize); gsap.killTweensOf(state); };
+    return () => { st?.kill(); io.disconnect(); cancelAnimationFrame(raf); sec.removeEventListener('pointermove', onMove); sec.removeEventListener('pointerleave', onLeave); removeEventListener('resize', onResize); gsap.killTweensOf(state); };
   }, []);
 
   return (
-    <section ref={root} className="mosaic" aria-label={`${GALLERY.items.length} Summit photos forming the DISCOVER logo`}>
+    <section ref={root} className="mosaic" aria-label={`The DISCOVER gallery: ${GALLERY.items.length} Summit photos forming the DISCOVER logo`}>
       <div className="mosaic-stick">
+        <h1 className="sr-only">The DISCOVER gallery: {GALLERY.items.length} Summit photos, 2017–2026</h1>
         <canvas ref={cv} className="mosaic-cv" aria-hidden="true" />
-        <img ref={big} className="mosaic-big" alt="" aria-hidden="true" />
-        <div ref={intro} className="mosaic-intro wrap">
-          <div className="tag">The DISCOVER gallery · 2017–2026</div>
-          <h1>{GALLERY.items.length} moments.<br /><em>One network.</em></h1>
-          <p>Every tile in this logo is a real photo from a DISCOVER Summit. Scroll to step inside.</p>
-        </div>
         <div ref={outro} className="mosaic-outro">
           <b>Now explore every one of them.</b>
           <span>Drag the wall below in any direction ↓</span>

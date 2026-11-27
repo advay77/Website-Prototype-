@@ -30,6 +30,7 @@ export function ScrollHero() {
   const words = useRef<(HTMLDivElement | null)[]>([]);
   const outro = useRef<HTMLDivElement>(null);
   const hint = useRef<HTMLDivElement>(null);
+  const film = useRef<HTMLVideoElement>(null);
   const bar = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -81,6 +82,7 @@ export function ScrollHero() {
       const e = ramp(p, 0.92, 0.98);
       if (outro.current) { outro.current.style.opacity = String(e); outro.current.style.transform = `translateY(${24 * (1 - e)}px)`; outro.current.style.pointerEvents = e > 0.5 ? '' : 'none'; }
       if (hint.current) hint.current.style.opacity = String(1 - ramp(p, 0, 0.06));
+      if (film.current) { const f = 1 - ramp(p, 0.01, 0.07); film.current.style.opacity = String(f); if (f === 0) film.current.pause(); else if (film.current.paused) film.current.play().catch(() => {}); }
       if (bar.current) bar.current.style.transform = `scaleX(${p})`;
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
@@ -102,11 +104,16 @@ export function ScrollHero() {
     <section ref={root} className="sh" aria-label="DISCOVER Summit 2027">
       <div className="sh-stick">
         <canvas ref={canvas} className="sh-canvas" aria-hidden="true" style={{ backgroundImage: `url(${src('d', 0)})` }} />
+        {/* Same film as the home hero: one slow move from the back of the hall to the stage.
+            It plays until the visitor scrolls, then hands over to the scroll walk-in. */}
+        <video ref={film} className="sh-film" autoPlay muted loop playsInline preload="auto" poster="/assets/video/hero-poster.jpg" aria-hidden="true">
+          <source src="/assets/video/hero.webm" type="video/webm" />
+          <source src="/assets/video/hero.mp4" type="video/mp4" />
+        </video>
         <div className="sh-shade" aria-hidden="true" />
 
         <div className="wrap sh-layer">
           <div ref={intro} className="sh-intro">
-            <div className="tag">The DISCOVER Annual Summit · 11th edition</div>
             <h1>The future of supply chain starts <em>with connection.</em></h1>
             <p className="lead">Join emerging talent, industry leaders and organizations shaping the next generation of supply chain leadership. Two days, 100+ leaders, one Gala.</p>
             <div className="chips s-chips"><span>September 2027</span><span>New Jersey · venue soon</span><span>2 days + Gala</span></div>
@@ -124,7 +131,6 @@ export function ScrollHero() {
           ))}
 
           <div ref={outro} className="sh-outro" aria-hidden="true">
-            <div className="tag">September 2027 · New Jersey</div>
             <b>Take your seat.</b>
             <div className="ctas">
               <a className="btn btn-white" href="#tickets" tabIndex={-1}>Get your pass · $299 <span className="arr">→</span></a>

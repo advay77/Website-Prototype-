@@ -83,7 +83,6 @@ export function SummitPass() {
   return (
     <div className="pass">
       <div className="pass-form">
-        <div className="tag">Going? Make it official</div>
         <h2>“I’m attending.” Share your pass.</h2>
         <p>Type your details, download your personal Summit pass and post it on LinkedIn. Every share brings the community one connection closer.</p>
         <div className="pass-fields">

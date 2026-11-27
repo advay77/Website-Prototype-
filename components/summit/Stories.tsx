@@ -6,39 +6,76 @@ export type Story = {
   k: string;
   h: string;
   photos: string[]; // full image URLs; they rotate every few seconds
-  video?: { src: string; poster?: string };
+  video?: { src: string; poster: string; x?: number }; // x: horizontal focus (0-1) for the portrait card crop
 };
 
-const EVERY = 4000;
+const EVERY = 3500;
 const PER_VIEW = 3;
+
+const Arrow = (left: boolean) => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={left ? { transform: 'scaleX(-1)' } : undefined}><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+);
 
 const PlayIcon = <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg>;
 
-/** One card: its photos cross-fade every 4s (staggered per card); a video plays when there is one. */
+/** One card: photos cross-fade every 4s (staggered per card), or a video that plays on hover. */
 function StoryCard({ s, index, live, onPlay }: { s: Story; index: number; live: boolean; onPlay: () => void }) {
   const [at, setAt] = useState(0);
   useEffect(() => {
-    if (!live || s.photos.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!live || s.video || s.photos.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let id: ReturnType<typeof setInterval>;
     const start = setTimeout(() => { id = setInterval(() => setAt((a) => (a + 1) % s.photos.length), EVERY); }, (index % PER_VIEW) * 700);
     return () => { clearTimeout(start); clearInterval(id); };
-  }, [live, index, s.photos.length]);
+  }, [live, index, s.video, s.photos.length]);
+
+  // Video cards: the person starts talking when the pointer is over the card
+  // (with sound once the visitor has interacted with the page), and stops
+  // when it leaves. On touch screens the card plays muted while centred.
+  const vid = useRef<HTMLVideoElement>(null);
+  const card = useRef<HTMLElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const start = () => {
+    const v = vid.current; if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const nav = navigator as Navigator & { userActivation?: { hasBeenActive: boolean } };
+    v.muted = !nav.userActivation?.hasBeenActive; setMuted(v.muted);
+    if (v.ended) v.currentTime = 0;
+    v.play().catch(() => { v.muted = true; setMuted(true); v.play().catch(() => {}); });
+  };
+  const stop = () => vid.current?.pause();
+  useEffect(() => {
+    if (!s.video || matchMedia('(hover: hover)').matches) return;
+    const io = new IntersectionObserver(([e]) => (e.intersectionRatio > 0.7 ? start() : stop()), { threshold: [0, 0.7] });
+    io.observe(card.current!);
+    return () => io.disconnect();
+  }, [s.video]);
+  useEffect(() => { if (!live) stop(); }, [live]);
 
   return (
-    <article className={`story${s.video ? ' has-video' : ''}`}>
-      {s.photos.map((src, i) => (
+    <article ref={card} className={`story${s.video ? ' has-video' : ''}${playing ? ' playing' : ''}`}
+      onPointerEnter={(e) => { if (s.video && e.pointerType === 'mouse') start(); }}
+      onPointerLeave={(e) => { if (s.video && e.pointerType === 'mouse') stop(); }}>
+      {s.video ? (
+        <video ref={vid} className="on" src={s.video.src} poster={s.video.poster} muted playsInline preload="metadata" aria-hidden="true"
+          style={{ objectPosition: `${(s.video.x ?? 0.5) * 100}% 50%` }}
+          onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} />
+      ) : s.photos.map((src, i) => (
         <img key={src} className={i === at ? 'on' : ''} src={src} alt="" loading={i === 0 && index < PER_VIEW ? 'eager' : 'lazy'} decoding="async" aria-hidden="true" />
       ))}
       {s.video ? (
-        <button className="play" onClick={onPlay} aria-label={`Play video: ${s.h}`}>{PlayIcon}</button>
+        <button className="play" onClick={() => { stop(); onPlay(); }} aria-label={`Play video with sound: ${s.h}`}>{PlayIcon}</button>
       ) : (
         <div className="play" aria-hidden="true">{PlayIcon}</div>
       )}
-      <div className="story-dots" aria-hidden="true">{s.photos.map((src, i) => <i key={src} className={i === at ? 'on' : ''} />)}</div>
+      {!s.video && <div className="story-dots" aria-hidden="true">{s.photos.map((src, i) => <i key={src} className={i === at ? 'on' : ''} />)}</div>}
       <div className="cap">
         <div className="k">{s.k}</div>
         <h4>{s.h}</h4>
-        {s.video ? <button className="soon watch" onClick={onPlay}>Watch the story</button> : <span className="soon">Video coming soon</span>}
+        {s.video ? (
+          <button className="soon watch" onClick={() => { stop(); onPlay(); }}>
+            {playing ? (muted ? 'Playing muted · tap for sound' : 'Playing · open full screen') : 'Hover to play · tap for sound'}
+          </button>
+        ) : <span className="soon">Video coming soon</span>}
       </div>
     </article>
   );
@@ -88,16 +125,19 @@ export function Stories({ items }: { items: Story[] }) {
         {items.map((s, i) => <StoryCard key={s.h} s={s} index={i} live={live} onPlay={() => setVideo(s)} />)}
       </div>
       {pages > 1 && (
-        <>
-          <button className={`stories-next${last ? ' back' : ''}`} onClick={() => go(last ? 0 : page + 1)} aria-label={last ? 'Back to the first stories' : 'Show more stories'}>
-            <span aria-hidden="true">{last ? '←' : '→'}</span>
-            <small>{last ? 'Back' : 'More stories'}</small>
-          </button>
+        <div className="stories-bar">
           <div className="stories-pager" aria-hidden="true">
             {Array.from({ length: pages }, (_, i) => <i key={i} className={i === page ? 'on' : ''} />)}
-            <span>{String(Math.min(items.length, (page + 1) * PER_VIEW)).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
+            <span>{String(Math.min(items.length, Math.round(((page + 1) * items.length) / pages))).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
           </div>
-        </>
+          <div className="stories-ctl">
+            <button className="stories-arrow" onClick={() => go(page - 1)} disabled={page === 0} aria-label="Previous stories">{Arrow(true)}</button>
+            <button className={`stories-more${last ? ' back' : ''}`} onClick={() => go(last ? 0 : page + 1)} aria-label={last ? 'Back to the first stories' : 'Show more stories'}>
+              <span>{last ? 'Back to start' : 'More stories'}</span>
+              <i aria-hidden="true">{Arrow(last)}</i>
+            </button>
+          </div>
+        </div>
       )}
       {video?.video && (
         <div className="story-modal" role="dialog" aria-modal="true" aria-label={video.h} onClick={() => setVideo(null)}>

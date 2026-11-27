@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { PageChrome } from '@/components/PageChrome';
 import { Mosaic } from '@/components/gallery/Mosaic';
 import { Wall } from '@/components/gallery/Wall';
+import { SameMoment } from '@/components/summit/SameMoment';
 import '../summit/summit.css';
 import './gallery.css';
 
@@ -15,6 +16,16 @@ export default function GalleryPage() {
     <PageChrome page="gallery">
       <Mosaic />
       <Wall />
+      {/* Same moment, every year */}
+      <section className="s-same">
+        <div className="wrap">
+          <div className="sec-head reveal">
+            <div><div className="tag">Same moment, every year</div><h2>Watch the community grow.</h2></div>
+            <p>The same kind of photo from every Summit we have, side by side.</p>
+          </div>
+          <div className="reveal"><SameMoment /></div>
+        </div>
+      </section>
     </PageChrome>
   );
 }
