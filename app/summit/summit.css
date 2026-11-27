@@ -579,23 +579,13 @@
 .deck-lines i:nth-child(2) { top: 58%; animation-delay: -2.4s; animation-duration: 9s; }
 .deck-lines i:nth-child(3) { top: 86%; animation-delay: -5s; }
 @keyframes sweep { from { transform: translateX(-40%); } to { transform: translateX(40%); } }
-.deck-type { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 26px; padding: 10px 16px; border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); font-family: var(--mono); font-size: clamp(.85rem, 1.4vw, 1.05rem); color: #e6eefb; min-height: 46px; max-width: 100%; }
-.deck-type-k { color: var(--sky); font-weight: 700; }
 .caret { display: inline-block; width: 9px; height: 1.15em; margin-left: 3px; vertical-align: -2px; background: var(--sky); animation: blink 1s steps(2) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
-.deck-next { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px; margin-top: 40px; padding: 18px 22px; border-radius: 18px; border: 1px solid rgba(255,255,255,.14); background: linear-gradient(90deg, rgba(92,184,240,.12), rgba(255,255,255,.02)); color: #fff; transition: background .3s, transform .3s; }
-.deck-next:hover { background: linear-gradient(90deg, rgba(92,184,240,.22), rgba(255,255,255,.05)); transform: translateY(-2px); }
-.deck-next-k { font-family: var(--mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); background: var(--sky); padding: 5px 10px; border-radius: 999px; }
-.deck-next b { font-family: var(--head); font-weight: 600; font-size: clamp(1rem, 1.8vw, 1.3rem); }
-.deck-next b em { font-style: normal; color: var(--sky); }
-.deck-next i { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-style: normal; border: 1px solid rgba(255,255,255,.3); animation: nudge 1.6s ease-in-out infinite; }
-@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 @media (max-width: 600px) {
   .deck-next { grid-template-columns: 1fr auto; gap: 10px; }
   .deck-next-k { grid-column: 1 / -1; justify-self: start; }
 }
 @media (prefers-reduced-motion: reduce) { .deck-lines i, .caret, .deck-next i { animation: none; } }
-.deck-type { min-width: min(100%, 520px); }
 @media (max-width: 600px) { .deck-type { display: flex; width: 100%; min-height: 64px; align-items: flex-start; } }
 
 /* ---------- Why attend: flip cards ---------- */
@@ -648,3 +638,12 @@
   .route:not(.yroute) .bubble { flex-basis: 30px; }
 }
 .why-flip .fc:nth-child(2) .fc-front img { object-position: 28% 50%; }
+/* Year timeline without the truck: a calm line of photo circles */
+.no-truck .route-map { margin-top: 8px; height: 170px; }
+.no-truck .route-line { top: 66px; height: 2px; background: linear-gradient(90deg, rgba(185,211,234,.2), #b9d3ea 12%, #b9d3ea 88%, rgba(185,211,234,.2)); animation: none; }
+.no-truck .route-stop i { border-color: var(--navy); }
+.no-truck .route-stop.empty i { border-color: #b9d3ea; }
+.no-truck .route-stop.on i { border-color: var(--blue); }
+.no-truck .route-stop:hover i { transform: scale(1.12); }
+.no-truck .route-stop.on:hover i { transform: scale(1.45); }
+.yr-num { font-family: var(--head); font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; font-weight: 700; color: rgba(255,255,255,.14); letter-spacing: -.02em; margin-bottom: 6px; }

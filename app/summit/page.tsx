@@ -4,12 +4,12 @@ import { PageChrome } from '@/components/PageChrome';
 import { Photo } from '@/components/summit/Photo';
 import { RouteAgenda } from '@/components/summit/RouteAgenda';
 import { SpeakerDeck } from '@/components/summit/SpeakerDeck';
-import { TypeLine } from '@/components/summit/TypeLine';
 import { WhyFlip } from '@/components/summit/WhyFlip';
 import { Net } from '@/components/Net';
 import { SummitPass } from '@/components/summit/SummitPass';
+import { YearRoute } from '@/components/summit/YearRoute';
+import { YEARS } from '@/lib/years';
 import { Stories, type Story } from '@/components/summit/Stories';
-import { TeaserMosaic } from '@/components/summit/TeaserMosaic';
 import { LiveMosaicBg } from '@/components/summit/LiveMosaicBg';
 import { ScrollHero } from '@/components/summit/ScrollHero';
 import { Bento } from '@/components/summit/Bento';
@@ -193,18 +193,7 @@ export default function SummitPage() {
         <Net className="deck-net" seed={61} density={18} />
         <div className="deck-lines" aria-hidden="true"><i /><i /><i /></div>
         <div className="wrap reveal">
-          <p className="deck-type"><span className="deck-type-k">&gt;</span><TypeLine lines={[
-            'Same room. Same coffee line. Same people who sign off on the supply chain.',
-            'The keynote ends. That’s when the real conversations start.',
-            'Bring a question. Leave with a contact who can answer it.',
-            'Last year’s attendee is this year’s committee chair.',
-          ]} /></p>
           <SpeakerDeck items={SPEAKERS} />
-          <a className="deck-next" href="#voices">
-            <span className="deck-next-k">Up next</span>
-            <b>What one conversation changed. <em>Hear it from them</em></b>
-            <i aria-hidden="true">↓</i>
-          </a>
         </div>
       </section>
 
@@ -230,14 +219,14 @@ export default function SummitPage() {
         </div>
       </section>
 
-      {/* The DISCOVER logo, built from photos */}
-      <section className="s-teaser">
+      {/* Every Summit's photos, year by year */}
+      <section className="dark s-years" id="years">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><h2>DISCOVER, built from every face.</h2></div>
-            <p>Scroll and the logo assembles from Summit photos. Move over it to magnify the people behind it, or tap to open the full gallery.</p>
+            <div><h2>Ten Summits. One growing network.</h2></div>
+            <p>From our first gathering in 2017 to the Decade of DISCOVER. Tap a year to see its photos.</p>
           </div>
-          <div className="reveal"><TeaserMosaic /></div>
+          <div className="reveal"><YearRoute years={YEARS} /></div>
         </div>
       </section>
 
