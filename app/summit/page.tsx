@@ -3,7 +3,11 @@ import Link from 'next/link';
 import { PageChrome } from '@/components/PageChrome';
 import { Photo } from '@/components/summit/Photo';
 import { DayTimeline } from '@/components/summit/DayTimeline';
-import { Gallery } from '@/components/summit/Gallery';
+import { ScrollHero } from '@/components/summit/ScrollHero';
+import { PhotoRiver } from '@/components/summit/PhotoRiver';
+import { CountUp } from '@/components/summit/CountUp';
+import { StickyRegister } from '@/components/summit/StickyRegister';
+import { Marquee } from '@/components/Marquee';
 import './summit.css';
 
 export const metadata: Metadata = {
@@ -65,6 +69,21 @@ const MOMENTS = [
   { name: 'breakouts', alt: 'Round-table breakout discussion' },
 ];
 
+const RIVER = [
+  ['r-01', 'Keynote on the DISCOVER stage'], ['r-02', 'Panelists in conversation'], ['r-03', 'Workshop teams sharing ideas'],
+  ['r-04', 'Friends at the Gala reception'], ['r-05', 'Host on stage at the Gala'], ['r-06', 'Attendee at the Gala'],
+  ['r-07', 'The dance floor at the Gala'], ['r-08', 'Attendee portrait at the photo wall'], ['r-09', 'Speaker on stage'],
+  ['r-10', 'Keynote at the podium'], ['r-11', 'Executive panel'], ['r-12', 'Fireside chat'],
+  ['r-13', 'Group photo by the windows'], ['r-14', 'Attendee in the ballroom'], ['r-15', 'Reception guests'], ['r-16', 'Gala celebration'],
+].map(([name, alt]) => ({ name, alt }));
+
+const LOGOS = [
+  ['jj.png', 'Johnson & Johnson'], ['pfizer.png', 'Pfizer'], ['merck.png', 'Merck'], ['WM_Logo.png', 'Walmart'], ['bcg.jpg', 'BCG'],
+  ['Hershey.jpg', 'Hershey'], ['BMS.jpg', 'Bristol Myers Squibb'], ['EY.jpg', 'EY'], ['gartner.jpg', 'Gartner'], ['GEP-Sponsor-Logo.png', 'GEP'],
+  ['3M.jpg', '3M'], ['Organon-Sponsor-Logo-210x130-1.png', 'Organon'], ['Land-o-Lankes-Sponsor-Logo.png', "Land O'Lakes"],
+  ['Rutgers-Sponsor-Logo_210x130.png', 'Rutgers'], ['Penn-State-Sponsor-Logo-210x130-1.png', 'Penn State'], ['Walker.jpg', 'Walker SCM'],
+];
+
 const TRACK = [
   ['2017', 'The first DISCOVER Summit'], ['2018', 'Summit II'], ['2019', 'Summit III'], ['2020', 'Virtual'], ['2021', 'Virtual'],
   ['2022', 'Hotel Hershey, PA'], ['2023', 'Philadelphia, PA · "United for IMPACT"'], ['2024', 'New York · hosted by Pfizer'],
@@ -94,42 +113,16 @@ const Icon = {
 export default function SummitPage() {
   return (
     <PageChrome page="summit">
-      {/* 01 · Hero */}
-      <section className="hero hero-video s-hero">
-        <video className="hero-bg" autoPlay muted loop playsInline preload="auto" poster="/assets/video/hero-poster.jpg" aria-hidden="true">
-          <source src="/assets/video/hero.webm" type="video/webm" />
-          <source src="/assets/video/hero.mp4" type="video/mp4" />
-        </video>
-        <div className="hero-shade" aria-hidden="true" />
+      {/* 01 · Hero: scroll walks the camera from the back of the hall to the stage */}
+      <ScrollHero />
+
+      <section className="dark s-stats">
         <div className="wrap">
-          <div className="grid">
-            <div>
-              <div className="tag">The DISCOVER Annual Summit · 11th edition</div>
-              <h1>The future of supply chain starts <em>with connection.</em></h1>
-              <p className="lead">Join emerging talent, industry leaders and organizations shaping the next generation of supply chain leadership. Two days, 100+ leaders, one Gala.</p>
-              <div className="chips s-chips"><span>September 2027</span><span>New Jersey · venue soon</span><span>2 days + Gala</span></div>
-              <div className="ctas">
-                <a className="btn btn-primary" href="#tickets">Register for the Summit <span className="arr">→</span></a>
-                <Link className="btn btn-ghost s-ghost" href="/sponsors">Explore sponsorship</Link>
-              </div>
-            </div>
-            <div className="hero-side">
-              <div className="s-count">
-                <div className="k">EARLY-BIRD OPEN · THE SUMMIT STARTS IN</div>
-                <div className="count">
-                  <div><b data-count="days">00</b><span>days</span></div>
-                  <div><b data-count="hrs">00</b><span>hours</span></div>
-                  <div><b data-count="min">00</b><span>mins</span></div>
-                  <div><b data-count="sec">00</b><span>secs</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div className="stats">
-            <div><small>EDITION</small><b>11<sup>th</sup></b><span>annual Summit since 2017</span></div>
-            <div><small>ATTENDEES</small><b>100<sup>+</sup></b><span>senior and rising supply chain leaders</span></div>
-            <div><small>FORMAT</small><b>2<sup>days</sup></b><span>keynotes, panels, career fair, workshops</span></div>
-            <div><small>EVENING</small><b>1</b><span>DISCOVER Gala, included in every pass</span></div>
+            <div><small>EDITION</small><b><CountUp to={11} /><sup>th</sup></b><span>annual Summit since 2017</span></div>
+            <div><small>ATTENDEES</small><b><CountUp to={100} /><sup>+</sup></b><span>senior and rising supply chain leaders</span></div>
+            <div><small>FORMAT</small><b><CountUp to={2} /><sup>days</sup></b><span>keynotes, panels, career fair, workshops</span></div>
+            <div className="s-cd"><small>THE SUMMIT STARTS IN</small><b data-count="days">00</b><span>days · early-bird pricing open now</span></div>
           </div>
         </div>
       </section>
@@ -210,14 +203,14 @@ export default function SummitPage() {
       </section>
 
       {/* 06 · Moments that matter */}
-      <section>
+      <section className="s-moments">
         <div className="wrap">
           <div className="sec-head reveal">
             <div><div className="tag">Moments that matter</div><h2>The 2026 Summit, in pictures.</h2></div>
-            <p>Keynotes, conversations, awards and a dance floor that didn’t empty until late. Tap any photo to see it full size.</p>
+            <p>Keynotes, conversations, awards and a dance floor that didn’t empty until late. Hover to pause, tap any photo to see it full size.</p>
           </div>
-          <div className="reveal"><Gallery items={MOMENTS} /></div>
         </div>
+        <div className="reveal"><PhotoRiver rows={[MOMENTS, RIVER]} /></div>
       </section>
 
       {/* A decade on the road */}
@@ -294,6 +287,10 @@ export default function SummitPage() {
               </div>
             </div>
           </div>
+          <div className="s-partners reveal">
+            <p>Leaders from these organizations have been in the room</p>
+            <Marquee>{LOGOS.map(([f, n]) => <img key={f} src={`/assets/logos/${f}`} alt={n} />)}</Marquee>
+          </div>
         </div>
       </section>
 
@@ -323,6 +320,7 @@ export default function SummitPage() {
           </div>
         </div>
       </section>
+      <StickyRegister />
     </PageChrome>
   );
 }
