@@ -4,7 +4,7 @@ import { PageChrome } from '@/components/PageChrome';
 import { Photo } from '@/components/summit/Photo';
 import { DayTimeline } from '@/components/summit/DayTimeline';
 import { ScrollHero } from '@/components/summit/ScrollHero';
-import { PhotoRiver } from '@/components/summit/PhotoRiver';
+import { Bento } from '@/components/summit/Bento';
 import { CountUp } from '@/components/summit/CountUp';
 import { StickyRegister } from '@/components/summit/StickyRegister';
 import { Marquee } from '@/components/Marquee';
@@ -40,12 +40,12 @@ const DAYS = [
 ];
 
 const VOICES = [
-  { photo: 'voice-keynote', label: 'Keynote' },
-  { photo: 'voice-panel-2', label: 'Executive panel' },
-  { photo: 'voice-keynote-2', label: 'Keynote' },
-  { photo: 'voice-panel', label: 'Fireside chat' },
-  { photo: 'voice-keynote-3', label: 'Closing keynote' },
-  { photo: 'voice-stage', label: 'Recognition' },
+  { photo: 'voice-keynote', label: 'Keynote', pos: '72% 30%' },
+  { photo: 'voice-panel-2', label: 'Executive panel', pos: '50% 30%' },
+  { photo: 'voice-keynote-2', label: 'Keynote', pos: '40% 30%' },
+  { photo: 'voice-panel', label: 'Fireside chat', pos: '55% 35%' },
+  { photo: 'voice-keynote-3', label: 'Closing keynote', pos: '45% 30%' },
+  { photo: 'voice-stage', label: 'Recognition', pos: '45% 40%' },
 ];
 
 const STORIES = [
@@ -67,6 +67,16 @@ const MOMENTS = [
   { name: 'group-stairs', alt: 'Summit attendees gathered for a group photo', span: 'wide' as const },
   { name: 'keynote', alt: 'Keynote at the DISCOVER podium' },
   { name: 'breakouts', alt: 'Round-table breakout discussion' },
+];
+
+const BENTO = [
+  { area: 'hall', name: 'hall', alt: 'The full Summit ballroom during a keynote', label: 'Keynote morning', video: true },
+  { area: 'gala', name: 'gala', alt: 'Award moment at the DISCOVER Gala', label: 'Gala awards', video: true },
+  { area: 'joy', name: 'joy', alt: 'Attendee celebrating on the dance floor', label: 'Gala night', pos: '50% 25%' },
+  { area: 'net', name: 'networking', alt: 'Leaders talking between sessions', label: 'Between sessions' },
+  { area: 'work', name: 'workshop', alt: 'Workshop teams presenting ideas', label: 'Workshops', pos: '45% 40%' },
+  { area: 'dance', name: 'dance', alt: 'The Gala dance floor', label: 'The dance floor', video: true },
+  { area: 'awards', name: 'awards', alt: 'Award winners on stage', label: 'Recognition', pos: '35% 40%' },
 ];
 
 const RIVER = [
@@ -135,7 +145,7 @@ export default function SummitPage() {
             <h2>Small enough to meet everyone. Senior enough to matter.</h2>
             <p>A two-day experience to learn, connect and grow with the supply chain community. No 8,000-person expo halls.</p>
           </div>
-          <div className="why reveal">
+          <div className="why reveal stagger">
             {[
               ['learn', 'Learn', 'Insights from the leaders shaping what’s next: keynotes and candid panels from CPOs, VPs and directors at J&J, Pfizer, Merck, Walmart, Hershey and more.', 'voice-keynote'],
               ['connect', 'Connect', 'Build relationships across industry and academia. Pharma meets retail meets consulting meets the universities training tomorrow’s talent.', 'networking'],
@@ -172,10 +182,10 @@ export default function SummitPage() {
             <div><div className="tag">Speakers &amp; leaders</div><h2>Meet the people shaping the conversation.</h2></div>
             <p>Executives, practitioners and rising leaders take the DISCOVER stage every year. Here are moments from the 2026 Summit; 2027 speakers are announced in spring.</p>
           </div>
-          <div className="voices reveal">
+          <div className="voices reveal stagger">
             {VOICES.map((v) => (
               <figure className="voice" key={v.photo}>
-                <Photo name={v.photo} alt={`${v.label} at the 2026 DISCOVER Summit`} sizes="(max-width: 600px) 50vw, (max-width: 980px) 33vw, 16vw" />
+                <Photo name={v.photo} alt={`${v.label} at the 2026 DISCOVER Summit`} sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw" pos={v.pos} />
                 <figcaption><span>2026 Summit</span>{v.label}</figcaption>
               </figure>
             ))}
@@ -190,7 +200,7 @@ export default function SummitPage() {
             <div><div className="tag">Real voices</div><h2>Hear it from the people in the room.</h2></div>
             <p>Students and professionals on what the Summit changed for them. Video stories from the 2026 Summit are on their way.</p>
           </div>
-          <div className="stories reveal">
+          <div className="stories reveal stagger">
             {STORIES.map((s) => (
               <article className="story" key={s.photo}>
                 <Photo name={s.photo} alt="" sizes="(max-width: 980px) 100vw, 33vw" />
@@ -206,11 +216,11 @@ export default function SummitPage() {
       <section className="s-moments">
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><div className="tag">Moments that matter</div><h2>The 2026 Summit, in pictures.</h2></div>
-            <p>Keynotes, conversations, awards and a dance floor that didn’t empty until late. Hover to pause, tap any photo to see it full size.</p>
+            <div><div className="tag">Moments that matter</div><h2>The 2026 Summit, in motion.</h2></div>
+            <p>Keynote mornings, Gala awards and a dance floor that didn’t empty until late. Tap any tile to see the photos full size.</p>
           </div>
+          <Bento tiles={BENTO} photos={[...MOMENTS, ...RIVER]} />
         </div>
-        <div className="reveal"><PhotoRiver rows={[MOMENTS, RIVER]} /></div>
       </section>
 
       {/* A decade on the road */}
@@ -235,7 +245,7 @@ export default function SummitPage() {
             <div><div className="tag">Tickets &amp; pricing</div><h2>Come for the Summit. Stay for the year.</h2></div>
             <p>Every pass includes both days, all meals and the Gala. All-Access adds a full year of DISCOVER community.</p>
           </div>
-          <div className="prices reveal">
+          <div className="prices reveal stagger">
             <div className="price">
               <div className="k">Summit only</div><h3>Summit Pass</h3>
               <div className="amt">$299</div><div className="note">Both days, all meals and the DISCOVER Gala.</div>
@@ -271,7 +281,7 @@ export default function SummitPage() {
             <div className="sponsor-in">
               <div className="tag">Corporate sponsorship</div>
               <h2>Put your organization at the center of the conversation.</h2>
-              <div className="perks">
+              <div className="perks reveal stagger">
                 {[
                   ['talent', 'Talent engagement', 'Meet students and early-career talent from Rutgers, Penn State and partner universities.'],
                   ['brand', 'Brand visibility', 'Your leaders on stage, your name in the program and at the Gala.'],

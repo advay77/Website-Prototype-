@@ -1,5 +1,5 @@
 /** Responsive photo from /assets/summit (each exported at 800 and 1600 px wide). */
-export function Photo({ name, alt, sizes = '(max-width: 980px) 100vw, 50vw', className, eager = false }: { name: string; alt: string; sizes?: string; className?: string; eager?: boolean }) {
+export function Photo({ name, alt, sizes = '(max-width: 980px) 100vw, 50vw', className, eager = false, pos }: { name: string; alt: string; sizes?: string; className?: string; eager?: boolean; pos?: string }) {
   return (
     <img
       className={className}
@@ -9,6 +9,7 @@ export function Photo({ name, alt, sizes = '(max-width: 980px) 100vw, 50vw', cla
       alt={alt}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"
+      style={pos ? { objectPosition: pos } : undefined}
     />
   );
 }
