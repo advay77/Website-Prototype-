@@ -118,9 +118,9 @@ export default function SponsorsPage() {
             <p>Hear directly from the companies who've sponsored, hosted and sent their teams.</p>
           </div>
           <div className="videos reveal">
-            <div className="vid big"><img src="/assets/img/IMG_2611.jpg" alt="" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Guardian partner</div><h4>What a decade of DISCOVER has meant for our talent</h4></div></div>
-            <div className="vid"><img src="/assets/img/IMG_2552.jpg" alt="" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Host partner</div><h4>Hosting 100+ leaders at our home</h4></div></div>
-            <div className="vid"><img src="/assets/img/IMG_9042.jpg" alt="" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Exhibitor</div><h4>The career fair that fills our pipeline</h4></div></div>
+            <div className="vid big soon-vid"><img src="/assets/img/IMG_2611.jpg" alt="" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Guardian partner</div><h4>What a decade of DISCOVER has meant for our talent</h4><span className="soon-chip">Video coming soon</span></div></div>
+            <div className="vid soon-vid"><img src="/assets/img/IMG_2552.jpg" alt="" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Host partner</div><h4>Hosting 100+ leaders at our home</h4><span className="soon-chip">Video coming soon</span></div></div>
+            <div className="vid soon-vid"><img src="/assets/img/IMG_9042.jpg" alt="" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Exhibitor</div><h4>The career fair that fills our pipeline</h4><span className="soon-chip">Video coming soon</span></div></div>
           </div>
         </div>
       </section>

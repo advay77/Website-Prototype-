@@ -240,7 +240,7 @@ export default function SummitPage() {
               <div className="k">Summit only</div><h3>Summit Pass</h3>
               <div className="amt">$299</div><div className="note">Both days, all meals and the DISCOVER Gala.</div>
               <ul><li>All keynotes, panels and breakouts</li><li>Career fair and workshops</li><li>DISCOVER Gala dinner</li><li>Summit photo and recap pack</li></ul>
-              <a className="btn btn-ghost" href="#">Buy Summit Pass</a>
+              <a className="btn btn-ghost" href="mailto:info@discover-org.us?subject=Summit%202027%20pass">Buy Summit Pass</a>
             </div>
             <div className="price feat"><span className="badge">BEST VALUE</span>
               <div className="k">Summit + 12 months</div><h3>All-Access</h3>

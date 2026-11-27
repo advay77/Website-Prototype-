@@ -29,7 +29,7 @@ export function Header() {
             <Link className="btn btn-primary nav-cta" href="/summit#tickets">Get Summit pass →</Link>
           </nav>
           <div className="head-cta">
-            <a className="login" href="#">Member login</a>
+            <a className="login" href="mailto:info@discover-org.us?subject=Member%20access">Member login</a>
             <Link className="btn btn-primary" href="/summit#tickets">
               Get Summit pass <span className="arr">→</span>
             </Link>

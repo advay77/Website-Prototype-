@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const PASSES = ['Summit Pass', 'All-Access', 'Student', 'Speaker', 'Sponsor'];
 
@@ -77,7 +77,8 @@ export function SummitPass() {
       a.click();
     } finally { setBusy(false); }
   };
-  const share = typeof window !== 'undefined' ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(location.origin + '/summit')}` : '#';
+  const [share, setShare] = useState('https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdiscover-org.us');
+  useEffect(() => setShare(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(location.origin + '/summit')}`), []);
 
   return (
     <div className="pass">

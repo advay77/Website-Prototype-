@@ -406,3 +406,9 @@ header.site .logo img { height: 48px; }
 /* Route network animation (was injected by app.js) */
 .flow { animation: flow 2.6s linear infinite; }
 @keyframes flow { to { stroke-dashoffset: -26; } }
+
+/* Story cards whose videos are not published yet */
+.vid.soon-vid { cursor: default; }
+.vid.soon-vid .play { opacity: .55; }
+.vid.soon-vid:hover .play { transform: none; }
+.soon-chip { display: inline-block; margin-top: 10px; font-family: var(--mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 5px 10px; color: #dbe5f5; }

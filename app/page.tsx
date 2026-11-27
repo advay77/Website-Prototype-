@@ -104,9 +104,9 @@ export default function HomePage() {
             <p>Attendees, speakers and sponsors on what DISCOVER changed for them.</p>
           </div>
           <div className="videos reveal">
-            <div className="vid big"><img src="/assets/img/IMG_2611.jpg" alt="" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Sponsor story</div><h4>Why our company keeps coming back</h4></div></div>
-            <div className="vid"><img src="/assets/img/IMG_9101.jpg" alt="" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Attendee story</div><h4>The conversation that changed my career</h4></div></div>
-            <div className="vid"><img src="/assets/img/IMG_5203.jpg" alt="" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Speaker story</div><h4>Building bridges across industries</h4></div></div>
+            <div className="vid big soon-vid"><img src="/assets/img/IMG_2611.jpg" alt="Partner company leaders with their awards at the DISCOVER Gala" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Sponsor story</div><h4>Why our company keeps coming back</h4><span className="soon-chip">Video coming soon</span></div></div>
+            <div className="vid soon-vid"><img src="/assets/img/IMG_9101.jpg" alt="Two attendees celebrating by the DISCOVER banner" /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Attendee story</div><h4>The conversation that changed my career</h4><span className="soon-chip">Video coming soon</span></div></div>
+            <div className="vid soon-vid"><img src="/assets/summit/voice-keynote-2-1600.jpg" alt="Speaker delivering a keynote at the DISCOVER Summit" style={{ objectPosition: '70% 30%' }} /><div className="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg></div><div className="cap"><div className="k">Speaker story</div><h4>Building bridges across industries</h4><span className="soon-chip">Video coming soon</span></div></div>
           </div>
         </div>
       </section>
@@ -135,7 +135,7 @@ export default function HomePage() {
           <div className="cards reveal">
             <div className="card"><div className="img"><img src="/assets/img/DISCOVER_Ridgwell_Chat_Series.png" alt="Career chat with Jonathan Ridgwell" /></div><div className="bd"><div className="k">SEP 2026 · REPLAY</div><h4>Career Development Chat with Jonathan Ridgwell</h4><p>Leadership lessons from the top of the supply chain.</p></div></div>
             <div className="card"><div className="img"><img src="/assets/img/Dapo_Ajayi.png" alt="Career chat with Dapo Ajayi" /></div><div className="bd"><div className="k">AUG 2026 · REPLAY</div><h4>Career Development Chat with Dapo Ajayi</h4><p>Innovation and the future of medicine supply chains.</p></div></div>
-            <div className="card"><div className="img"><img src="/assets/img/IMG_5180.jpg" alt="" /></div><div className="bd"><div className="k">NOV 2026 · UPCOMING</div><h4>Your next chat is coming</h4><p>Join the list to be first to register for the next session.</p></div></div>
+            <div className="card"><div className="img"><img src="/assets/img/IMG_5180.jpg" alt="" /></div><div className="bd"><div className="k">NEXT SESSION · DATE SOON</div><h4>Your next chat is coming</h4><p>Join the list to be first to register for the next session.</p></div></div>
           </div>
         </div>
       </section>

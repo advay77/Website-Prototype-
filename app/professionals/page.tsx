@@ -56,13 +56,13 @@ export default function ProfessionalsPage() {
               <div className="k">Year-round</div><h3>Community</h3>
               <div className="amt">$99 <small>/ year</small></div><div className="note">The DISCOVER network and every Career Chat.</div>
               <ul><li>Every live Career Development Chat</li><li>Replay library and takeaways</li><li>Member directory</li><li>Member pricing on all events</li></ul>
-              <a className="btn btn-ghost" href="#">Join Community</a>
+              <a className="btn btn-ghost" href="mailto:info@discover-org.us?subject=Community%20membership">Join Community</a>
             </div>
             <div className="price feat"><span className="badge">MOST POPULAR</span>
               <div className="k">Summit + 12 months</div><h3>All-Access</h3>
               <div className="amt">$349 <small>/ year</small></div><div className="note">Community membership plus a full Summit Pass. Save $49.</div>
               <ul><li>Everything in Community</li><li>Full Summit Pass: both days and the Gala</li><li>Priority registration for limited sessions</li><li>Early access to speaker announcements</li></ul>
-              <a className="btn btn-primary" href="#">Get All-Access <span className="arr">→</span></a>
+              <a className="btn btn-primary" href="mailto:info@discover-org.us?subject=All-Access%20membership">Get All-Access <span className="arr">→</span></a>
             </div>
             <div className="price">
               <div className="k">One event</div><h3>Summit Pass</h3>
