@@ -5,6 +5,9 @@ import { Photo } from '@/components/summit/Photo';
 import { RouteAgenda } from '@/components/summit/RouteAgenda';
 import { SpeakerDeck } from '@/components/summit/SpeakerDeck';
 import { SummitPass } from '@/components/summit/SummitPass';
+import { YearRoute } from '@/components/summit/YearRoute';
+import { SameMoment } from '@/components/summit/SameMoment';
+import { YEARS } from '@/lib/years';
 import { ScrollHero } from '@/components/summit/ScrollHero';
 import { Bento } from '@/components/summit/Bento';
 import { CountUp } from '@/components/summit/CountUp';
@@ -97,11 +100,6 @@ const LOGOS = [
   ['Rutgers-Sponsor-Logo_210x130.png', 'Rutgers'], ['Penn-State-Sponsor-Logo-210x130-1.png', 'Penn State'], ['Walker.jpg', 'Walker SCM'],
 ];
 
-const TRACK = [
-  ['2017', 'The first DISCOVER Summit'], ['2018', 'Summit II'], ['2019', 'Summit III'], ['2020', 'Virtual'], ['2021', 'Virtual'],
-  ['2022', 'Hotel Hershey, PA'], ['2023', 'Philadelphia, PA · "United for IMPACT"'], ['2024', 'New York · hosted by Pfizer'],
-  ['2025', 'Jersey City, NJ'], ['2026', 'New Brunswick, NJ · Decade of DISCOVER'],
-];
 
 const FAQ: [string, React.ReactNode][] = [
   ['Where is the Summit held?', 'In New Jersey, in September 2027. The venue and the discounted hotel room block are announced with the 2027 details.'],
@@ -213,18 +211,25 @@ export default function SummitPage() {
         </div>
       </section>
 
-      {/* A decade on the road */}
-      <section className="dark">
+      {/* A decade on the road: every Summit's photos */}
+      <section className="dark s-years" id="years">
         <div className="wrap">
           <div className="sec-head reveal">
             <div><div className="tag">A decade on the road</div><h2>Ten Summits. One growing network.</h2></div>
-            <p>From our first gathering in 2017 to the Decade of DISCOVER in New Brunswick. 2027 starts our second decade.</p>
+            <p>Follow the truck from our first gathering in 2017 to the Decade of DISCOVER. Tap a year to see its photos.</p>
           </div>
-          <div className="track-line reveal">
-            {TRACK.map(([y, t], i) => (
-              <div className={`stop${i === TRACK.length - 1 ? ' now' : ''}`} key={y}><div className="dot" /><b>{y}</b><span>{t}</span></div>
-            ))}
+          <div className="reveal"><YearRoute years={YEARS} /></div>
+        </div>
+      </section>
+
+      {/* Same moment, every year */}
+      <section className="s-same">
+        <div className="wrap">
+          <div className="sec-head reveal">
+            <div><div className="tag">Same moment, every year</div><h2>Watch the community grow.</h2></div>
+            <p>The same kind of photo from every Summit we have, side by side.</p>
           </div>
+          <div className="reveal"><SameMoment /></div>
         </div>
       </section>
 

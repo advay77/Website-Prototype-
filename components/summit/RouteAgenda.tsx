@@ -9,7 +9,7 @@ const PHOTO_MS = 2600;
 const img = (stop: string, k: number, w: 400 | 1600) => `/assets/summit/stops/${stop}-${k}-${w}.jpg`;
 type Day = { key: string; label: string; theme: string; slots: Slot[] };
 
-const Truck = () => (
+export const Truck = () => (
   <svg viewBox="0 0 64 40" aria-hidden="true">
     <rect x="2" y="6" width="36" height="22" rx="4" fill="#0a72ba" />
     <path d="M38 12h12l10 10v6H38z" fill="#22398a" />
