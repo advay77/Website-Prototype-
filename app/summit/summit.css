@@ -498,7 +498,7 @@
   .flip { scroll-snap-align: start; }
   .board-now { width: 100%; }
 }
-@media (prefers-reduced-motion: reduce) { .flip-in, .board-now b { animation: none; transform: rotateX(-180deg); } }
+@media (prefers-reduced-motion: reduce) { .flip-in { animation: none; transform: rotateX(-180deg); } .board-now b { animation: none; } }
 
 /* Partner logos inside "Why attend", between the intro and the cards */
 .s-partners-why { margin: -18px 0 54px; }
