@@ -511,3 +511,22 @@
 .s-partners-why .marquee img:hover { opacity: 1; filter: none; }
 @media (max-width: 600px) { .s-partners-why .marquee img { height: 64px; } }
 .yr-gallery { display: flex; justify-content: center; margin-top: 28px; }
+
+/* ---------- Ten years teaser mosaic ---------- */
+.s-teaser { background: var(--ink); color: #fff; }
+.s-teaser .tag { color: var(--sky); }
+.s-teaser .sec-head p { color: #b9c6dc; }
+.teaser-cv { display: block; width: 100%; aspect-ratio: 104 / 30; border-radius: 22px; cursor: pointer; background: var(--ink-2); }
+.teaser-cv:focus-visible { outline: 3px solid var(--sky); outline-offset: 4px; }
+.teaser-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-top: 22px; }
+.teaser-foot span { color: #8ea3c8; font-family: var(--mono); font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; }
+
+/* ---------- Final CTA: live mosaic ---------- */
+.s-final-cv { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; display: block; }
+.s-final-shade { background: radial-gradient(ellipse at center, rgba(8,22,52,.86) 25%, rgba(8,22,52,.35) 75%) !important; }
+.your-tile { width: 108px; height: 108px; margin: 0 auto 26px; border-radius: 18px; border: 2px dashed var(--sky); display: grid; place-content: center; gap: 2px; background: rgba(92,184,240,.08); animation: yourTile 2.4s ease-in-out infinite; }
+.your-tile b { font-family: var(--head); font-size: 1.6rem; color: #fff; line-height: 1; }
+.your-tile span { font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sky); }
+@keyframes yourTile { 0%, 100% { box-shadow: 0 0 0 0 rgba(92,184,240,.35); } 50% { box-shadow: 0 0 0 12px rgba(92,184,240,0); } }
+@media (max-width: 700px) { .teaser-cv { aspect-ratio: 54 / 22; } .your-tile { width: 92px; height: 92px; } }
+@media (prefers-reduced-motion: reduce) { .your-tile { animation: none; } }
