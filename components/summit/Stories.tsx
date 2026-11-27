@@ -6,7 +6,7 @@ export type Story = {
   k: string;
   h: string;
   photos: string[]; // full image URLs; they rotate every few seconds
-  video?: { src: string; poster?: string };
+  video?: { src: string; loop: string; poster: string };
 };
 
 const EVERY = 4000;
@@ -18,15 +18,24 @@ const PlayIcon = <svg width="20" height="20" viewBox="0 0 24 24" fill="currentCo
 function StoryCard({ s, index, live, onPlay }: { s: Story; index: number; live: boolean; onPlay: () => void }) {
   const [at, setAt] = useState(0);
   useEffect(() => {
-    if (!live || s.photos.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!live || s.video || s.photos.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let id: ReturnType<typeof setInterval>;
     const start = setTimeout(() => { id = setInterval(() => setAt((a) => (a + 1) % s.photos.length), EVERY); }, (index % PER_VIEW) * 700);
     return () => { clearTimeout(start); clearInterval(id); };
-  }, [live, index, s.photos.length]);
+  }, [live, index, s.video, s.photos.length]);
+
+  const vid = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = vid.current; if (!v) return;
+    if (live && !matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(() => {});
+    else v.pause();
+  }, [live]);
 
   return (
     <article className={`story${s.video ? ' has-video' : ''}`}>
-      {s.photos.map((src, i) => (
+      {s.video ? (
+        <video ref={vid} className="on" src={s.video.loop} poster={s.video.poster} muted loop playsInline preload="none" aria-hidden="true" />
+      ) : s.photos.map((src, i) => (
         <img key={src} className={i === at ? 'on' : ''} src={src} alt="" loading={i === 0 && index < PER_VIEW ? 'eager' : 'lazy'} decoding="async" aria-hidden="true" />
       ))}
       {s.video ? (
@@ -34,7 +43,7 @@ function StoryCard({ s, index, live, onPlay }: { s: Story; index: number; live: 
       ) : (
         <div className="play" aria-hidden="true">{PlayIcon}</div>
       )}
-      <div className="story-dots" aria-hidden="true">{s.photos.map((src, i) => <i key={src} className={i === at ? 'on' : ''} />)}</div>
+      {!s.video && <div className="story-dots" aria-hidden="true">{s.photos.map((src, i) => <i key={src} className={i === at ? 'on' : ''} />)}</div>}
       <div className="cap">
         <div className="k">{s.k}</div>
         <h4>{s.h}</h4>

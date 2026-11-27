@@ -18,7 +18,7 @@ const now = [
   ...MORE_2026.map((i) => ({ src: `/assets/gallery/l/${g3(i)}.webp`, thumb: `/assets/gallery/t/${g3(i)}.webp` })),
 ].map((s, i) => ({ ...s, alt: `DISCOVER Summit 2026, photo ${i + 1}` }));
 
-/** Every Summit since 2017, with the photos from discover-org.us/gallery and the 2026 gallery. */
+/** Every Summit since 2017: discover-org.us/gallery, the DISCOVER Dropbox (2024, 2025) and the 2026 gallery. */
 export const YEARS: Year[] = [
   { year: '2017', city: 'Summit I', note: 'The first DISCOVER Summit', shots: past('2017') },
   { year: '2018', city: 'Summit II', note: 'The first sponsor cohort', shots: past('2018') },
@@ -28,7 +28,7 @@ export const YEARS: Year[] = [
   { year: '2022', city: 'Hotel Hershey, PA', note: 'Back in person', shots: past('2022') },
   { year: '2023', city: 'Philadelphia, PA', note: '“United for IMPACT”', shots: past('2023') },
   { year: '2024', city: 'New York, NY', note: 'Hosted by Pfizer', shots: past('2024') },
-  { year: '2025', city: 'Jersey City, NJ', note: 'Photos coming soon', shots: [], soon: true },
+  { year: '2025', city: 'Jersey City, NJ', note: 'On the Hudson waterfront', shots: past('2025') },
   { year: '2026', city: 'New Brunswick, NJ', note: 'The Decade of DISCOVER', shots: now },
 ];
 
@@ -37,7 +37,7 @@ const s = (name: string) => ({ src: `/assets/summit/${name}-1600.jpg`, thumb: `/
 
 /** The same kind of moment, every year. */
 export const MOMENTS: { key: string; label: string; shots: Record<string, { src: string; thumb: string; pos?: string }> }[] = [
-  { key: 'group', label: 'The group photo', shots: { 2017: p('2017', 1), 2018: p('2018', 19), 2019: p('2019', 1), 2022: p('2022', 1), 2023: p('2023', 1), 2024: p('2024', 10), 2026: s('group-stairs') } },
-  { key: 'stage', label: 'On stage', shots: { 2017: p('2017', 7), 2018: p('2018', 15), 2019: p('2019', 12), 2022: { ...p('2022', 11), pos: '88% 50%' }, 2023: p('2023', 11), 2024: p('2024', 2), 2026: s('panel') } },
-  { key: 'network', label: 'Between sessions', shots: { 2017: p('2017', 12), 2018: p('2018', 9), 2019: p('2019', 8), 2022: p('2022', 9), 2023: p('2023', 6), 2024: p('2024', 8), 2026: s('networking') } },
+  { key: 'group', label: 'The group photo', shots: { 2017: p('2017', 1), 2018: p('2018', 19), 2019: p('2019', 1), 2022: p('2022', 1), 2023: p('2023', 1), 2024: p('2024', 21), 2025: p('2025', 1), 2026: s('group-stairs') } },
+  { key: 'stage', label: 'On stage', shots: { 2017: p('2017', 7), 2018: p('2018', 15), 2019: p('2019', 12), 2022: { ...p('2022', 11), pos: '88% 50%' }, 2023: p('2023', 11), 2024: p('2024', 2), 2025: p('2025', 10), 2026: s('panel') } },
+  { key: 'network', label: 'Between sessions', shots: { 2017: p('2017', 12), 2018: p('2018', 9), 2019: p('2019', 8), 2022: p('2022', 9), 2023: p('2023', 6), 2024: p('2024', 8), 2025: p('2025', 14), 2026: s('networking') } },
 ];

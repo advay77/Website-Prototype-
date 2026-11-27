@@ -92,7 +92,9 @@
 .story-close { position: absolute; top: 18px; right: 22px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; font-size: 1.6rem; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .story img { transition: none; transform: none; } .stories-next { animation: none; } }
 .story { position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4/5; isolation: isolate; }
-.story img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.story img, .story video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.story video { background: #0b1a36; }
+.story.has-video:hover video { transform: scale(1.03); transition: transform 1.2s; }
 .story::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(8,22,52,.1) 30%, rgba(8,22,52,.92)); }
 .story .play { position: absolute; top: 22px; left: 22px; width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,.92); color: var(--blue); display: grid; place-items: center; opacity: .85; }
 .story .cap { position: absolute; left: 24px; right: 24px; bottom: 22px; color: #fff; }

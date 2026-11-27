@@ -60,15 +60,15 @@ const SPEAKERS = [
   { photo: 'voice-stage', role: 'Recognition', session: 'Celebrating the people who move the world', pos: '62% 40%' },
 ];
 
-const gl = (i: number) => `/assets/gallery/l/${String(i).padStart(3, '0')}.webp`;
-const sp = (n: string) => `/assets/summit/${n}-1600.jpg`;
+const vid = (n: number) => ({ src: `/assets/summit/stories/v${n}.mp4`, loop: `/assets/summit/stories/v${n}-loop.mp4`, poster: `/assets/summit/stories/v${n}.jpg` });
+// Interviews recorded at the 2025 Summit in Jersey City (DISCOVER Dropbox).
 const STORIES: Story[] = [
-  { k: 'Professional story', h: 'What the Summit opened up for my career', photos: [sp('story-1'), gl(255), gl(257), gl(278)] },
-  { k: 'Student story', h: 'Walking in as a student, leaving with a network', photos: [sp('story-2'), gl(234), gl(329), gl(336)] },
-  { k: 'Community story', h: 'Why we come back every year', photos: [sp('story-3'), gl(332), gl(296), gl(323)] },
-  { k: 'Speaker story', h: 'What I tell people from the stage', photos: [gl(227), gl(637), gl(653), gl(684)] },
-  { k: 'First-timer story', h: 'My first Summit, from badge to Gala', photos: [gl(124), gl(349), gl(390), gl(343)] },
-  { k: 'Gala story', h: 'The night everyone remembers', photos: [gl(437), gl(439), gl(459), gl(382)] },
+  { k: 'Attendee voice · 2025', h: 'What the Summit means to me', photos: [], video: vid(1) },
+  { k: 'Attendee voice · 2025', h: 'The people I met in this room', photos: [], video: vid(2) },
+  { k: 'Attendee voice · 2025', h: 'What I’m taking home', photos: [], video: vid(3) },
+  { k: 'Attendee voice · 2025', h: 'Why this community matters', photos: [], video: vid(4) },
+  { k: 'Attendee voice · 2025', h: 'One day, in my own words', photos: [], video: vid(5) },
+  { k: 'Community · 2025', h: 'The 2025 class, all in one frame', photos: [], video: vid(6) },
 ];
 
 const MOMENTS = [
@@ -217,7 +217,7 @@ export default function SummitPage() {
         <div className="wrap">
           <div className="sec-head reveal">
             <div><div className="tag">Real voices</div><h2>Hear it from the people in the room.</h2></div>
-            <p>Students and professionals on what the Summit changed for them. Video stories from the 2026 Summit are on their way.</p>
+            <p>Students and professionals on what the Summit changed for them, recorded at the 2025 Summit in Jersey City. Tap a story to watch it with sound.</p>
           </div>
           <div className="reveal"><Stories items={STORIES} /></div>
         </div>
