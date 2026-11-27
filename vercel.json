@@ -1,0 +1,10 @@
+{
+  "framework": "nextjs",
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/summit.html", "destination": "/summit", "permanent": true },
+    { "source": "/sponsors.html", "destination": "/sponsors", "permanent": true },
+    { "source": "/professionals.html", "destination": "/professionals", "permanent": true },
+    { "source": "/about.html", "destination": "/about", "permanent": true }
+  ]
+}

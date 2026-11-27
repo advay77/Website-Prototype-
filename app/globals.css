@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 
 :root {
   /* Brand colours sampled from the DISCOVER logo; do not change */
@@ -401,5 +400,9 @@ header.site .logo img { height: 48px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-video .hero-bg { display: none; }
-  .hero-video { background: var(--ink) url("assets/video/hero-poster.jpg") center / cover no-repeat; }
+  .hero-video { background: var(--ink) url("/assets/video/hero-poster.jpg") center / cover no-repeat; }
 }
+
+/* Route network animation (was injected by app.js) */
+.flow { animation: flow 2.6s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -26; } }
