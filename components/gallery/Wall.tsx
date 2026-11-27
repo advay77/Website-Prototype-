@@ -140,7 +140,6 @@ export function Wall() {
     <section className="wall-sec" aria-label="All Summit photos">
       <div className="wall-bar wrap">
         <div>
-          <div className="tag">Every photo</div>
           <h2>Drag to explore.</h2>
         </div>
         <div className="wall-filters" role="tablist" aria-label="Year">
