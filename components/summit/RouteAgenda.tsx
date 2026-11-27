@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 
 type Slot = { time: string; title: string; short: string; note: string; photo: string; alt: string; stop?: string };
 
-const PER_STOP = 5;
-const PHOTO_MS = 2600;
+const PER_STOP = 12;
+const PHOTO_MS = 2200;
+/** The truck moves on after this many photos; the rest are a tap away. */
+const AUTO_SHOTS = 6;
 const img = (stop: string, k: number, w: 400 | 1600) => `/assets/summit/stops/${stop}-${k}-${w}.jpg`;
 type Day = { key: string; label: string; theme: string; slots: Slot[] };
 
@@ -48,7 +50,7 @@ export function RouteAgenda({ days }: { days: Day[] }) {
     const id = setTimeout(() => {
       if (stop < n - 1) setStop(stop + 1);
       else { setDay((day + 1) % days.length); setStop(0); }
-    }, PHOTO_MS * PER_STOP);
+    }, PHOTO_MS * AUTO_SHOTS);
     return () => clearTimeout(id);
   }, [auto, visible, stop, day, n, days.length]);
 
@@ -84,7 +86,7 @@ export function RouteAgenda({ days }: { days: Day[] }) {
         <div className="route-truck" style={{ left: `${pos(stop)}%` }}><Truck /></div>
         {d.slots.map((sl, i) => (
           <button key={`${day}-${sl.time}`} className={`route-stop${i === stop ? ' on' : ''}${i < stop ? ' past' : ''}`} style={{ left: `${pos(i)}%` }} onClick={() => pick(i)} aria-pressed={i === stop} aria-label={`${sl.time} ${sl.title}`}>
-            <i style={{ backgroundImage: `url(${sl.stop ? img(sl.stop, 0, 400) : `/assets/summit/${sl.photo}-800.jpg`})` }}>{sl.stop && <em>{PER_STOP}</em>}</i>
+            <i style={{ backgroundImage: `url(${sl.stop ? img(sl.stop, 0, 400) : `/assets/summit/${sl.photo}-800.jpg`})` }}></i>
             <b>{sl.short}</b>
             <small>{sl.time}</small>
           </button>
@@ -98,7 +100,7 @@ export function RouteAgenda({ days }: { days: Day[] }) {
               {Array.from({ length: PER_STOP }, (_, k) => (
                 <img key={k} className={k === shot ? 'on' : ''} src={img(s.stop!, k, 1600)} alt={k === shot ? `${s.alt} (${k + 1} of ${PER_STOP})` : ''} loading={k === 0 ? 'eager' : 'lazy'} aria-hidden={k !== shot} />
               ))}
-              <div className="bubbles" role="group" aria-label="Photos from this moment">
+              <div className="bubbles" role="group" aria-label="Photos from this moment" style={{ ['--n' as string]: PER_STOP }}>
                 {Array.from({ length: PER_STOP }, (_, k) => (
                   <button key={k} className={`bubble${k === shot ? ' on' : ''}`} style={{ animationDelay: `${k * -0.7}s` }} onClick={() => { setShot(k); setHold(true); setAuto(false); }} aria-label={`Photo ${k + 1} of ${PER_STOP}`} aria-pressed={k === shot}>
                     <span style={{ backgroundImage: `url(${img(s.stop!, k, 400)})` }} />

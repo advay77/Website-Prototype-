@@ -325,7 +325,7 @@
 .bubble:focus-visible span { box-shadow: 0 0 0 4px var(--sky); }
 @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 .route-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; z-index: 2; background: rgba(255,255,255,.15); }
-.route-progress i { display: block; height: 100%; background: var(--sky); transform-origin: left; animation: fill 2.6s linear both; }
+.route-progress i { display: block; height: 100%; background: var(--sky); transform-origin: left; animation: fill 2.2s linear both; }
 .route-progress i.held { animation: none; transform: scaleX(1); opacity: .5; }
 @keyframes fill { from { transform: scaleX(0); } }
 /* photo count on map stops */
@@ -598,3 +598,13 @@
 .fc-cta:hover .arr { transform: translateX(4px); }
 @media (max-width: 980px) { .why-flip .fc { height: 420px; } }
 @media (prefers-reduced-motion: reduce) { .fc-in { transition: none; } .fc-hint i, .fc.flipped li { animation: none; } }
+
+/* Route agenda: bubbles shrink to fit however many photos a stop has */
+.route:not(.yroute) .bubbles { right: 18px; gap: clamp(4px, .6vw, 8px); }
+.route:not(.yroute) .bubble { flex: 0 1 46px; width: auto; height: auto; aspect-ratio: 1; min-width: 0; }
+.route:not(.yroute) .bubble span { border-width: 2px; }
+.route:not(.yroute) .bubble.on span { transform: scale(1.22); }
+@media (max-width: 980px) {
+  .route:not(.yroute) .bubbles { left: 10px; right: 10px; gap: 4px; }
+  .route:not(.yroute) .bubble { flex-basis: 30px; }
+}
