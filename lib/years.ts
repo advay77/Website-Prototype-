@@ -10,7 +10,13 @@ const past = (y: string): YearShot[] =>
   });
 
 const SUMMIT_2026 = ['group-stairs', 'hall', 'keynote', 'panel', 'gala', 'networking', 'workshop', 'dance', 'awards', 'joy', 'breakouts', 'voice-keynote-2'];
-const now = SUMMIT_2026.map((n, i) => ({ src: `/assets/summit/${n}-1600.jpg`, thumb: `/assets/summit/${n}-800.jpg`, alt: `DISCOVER Summit 2026, photo ${i + 1}` }));
+// More 2026 photos from the gallery, picked by hand and checked for near-duplicates.
+const MORE_2026 = [129, 137, 154, 163, 180, 188, 198, 206, 215, 225, 238, 247, 260, 268, 279, 290, 303, 311, 319, 337, 350, 370];
+const g3 = (i: number) => String(i).padStart(3, '0');
+const now = [
+  ...SUMMIT_2026.map((n) => ({ src: `/assets/summit/${n}-1600.jpg`, thumb: `/assets/summit/${n}-800.jpg` })),
+  ...MORE_2026.map((i) => ({ src: `/assets/gallery/l/${g3(i)}.webp`, thumb: `/assets/gallery/t/${g3(i)}.webp` })),
+].map((s, i) => ({ ...s, alt: `DISCOVER Summit 2026, photo ${i + 1}` }));
 
 /** Every Summit since 2017, with the photos from discover-org.us/gallery and the 2026 gallery. */
 export const YEARS: Year[] = [
