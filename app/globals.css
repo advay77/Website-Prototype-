@@ -412,3 +412,11 @@ header.site .logo img { height: 48px; }
 .vid.soon-vid .play { opacity: .55; }
 .vid.soon-vid:hover .play { transform: none; }
 .soon-chip { display: inline-block; margin-top: 10px; font-family: var(--mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 5px 10px; color: #dbe5f5; }
+
+/* Header fits six links: no wrapping, tighter gaps on smaller laptops */
+nav.main { gap: clamp(18px, 2.3vw, 34px); }
+nav.main a, .head-cta a { white-space: nowrap; }
+@media (min-width: 981px) and (max-width: 1180px) {
+  .head-cta .login { display: none; }
+  nav.main { font-size: .93rem; }
+}
