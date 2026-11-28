@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const PASSES = ['Summit Pass', 'All-Access', 'Student', 'Speaker', 'Sponsor'];
+const PASSES = ['Summit Pass', 'Team', 'Student', 'Speaker', 'Sponsor'];
 
 function loadImg(src: string) {
   return new Promise<HTMLImageElement>((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; });
@@ -42,7 +42,7 @@ async function render(name: string, title: string, company: string, pass: string
   const fit = (t: string, max: number, px: number, weight = 700) => { let p = px; do { g.font = `${weight} ${p}px Inter, system-ui, sans-serif`; p -= 2; } while (g.measureText(t).width > max && p > 18); };
   g.fillStyle = '#0f1b33'; fit(name || 'Your Name', W - 64, 44); g.fillText(name || 'Your Name', x + 32, y + 340);
   g.fillStyle = '#5a677d'; fit([title, company].filter(Boolean).join(' · ') || 'Title · Company', W - 64, 22, 500); g.fillText([title, company].filter(Boolean).join(' · ') || 'Title · Company', x + 32, y + 378);
-  g.fillStyle = '#0a72ba'; g.font = '600 18px ui-monospace, monospace'; g.fillText('SUMMIT 2027', x + 32, y + 430); g.textAlign = 'right'; g.fillText('SEPT · NJ', x + W - 32, y + 430); g.textAlign = 'left';
+  g.fillStyle = '#0a72ba'; g.font = '600 18px ui-monospace, monospace'; g.fillText('SUMMIT 2027', x + 32, y + 430); g.textAlign = 'right'; g.fillText('SEPT · NY', x + W - 32, y + 430); g.textAlign = 'left';
   for (let i = 0, bx = x + 32; bx < x + W - 36; i++) { const w = [3, 2, 5, 2, 4, 3][i % 6]; g.fillStyle = '#0f1b33'; g.fillRect(bx, y + 450, w, 70); bx += w + [3, 4, 2, 5, 3][i % 5]; }
   g.fillStyle = '#22398a'; g.font = '800 22px Inter, system-ui, sans-serif'; g.textAlign = 'center'; g.fillText(pass.toUpperCase(), 0, y + 562);
   g.restore();
@@ -107,7 +107,7 @@ export function SummitPass() {
               <img src="/assets/img/discover-logo.png" alt="DISCOVER Supply Chain" />
               <b className="pass-name">{name || 'Your Name'}</b>
               <span className="pass-role">{[title, company].filter(Boolean).join(' · ') || 'Title · Company'}</span>
-              <div className="pass-meta"><span>SUMMIT 2027</span><span>SEPT · NJ</span></div>
+              <div className="pass-meta"><span>SUMMIT 2027</span><span>SEPT · NY</span></div>
               <div className="pass-code" />
               <div className="pass-type" key={pass}>{pass}</div>
             </div>

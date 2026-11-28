@@ -6,7 +6,7 @@ import Link from 'next/link';
 // Three scenes, each slowly zooming in, then cross-fading to the next.
 const SCENES = [
   { video: true },
-  { src: '/assets/years/2024-21-1600.jpg', origin: '50% 70%' }, // 2024 New York, the whole room
+  { src: '/assets/gallery/l/167.webp', origin: '50% 55%' },      // the ballroom set for the Summit
   { src: '/assets/gallery/l/442.webp', origin: '50% 60%' },      // 2026 Gala, conga line
 ] as const;
 const SCENE_MS = 8000;

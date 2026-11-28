@@ -21,7 +21,7 @@ import './summit.css';
 export const metadata: Metadata = {
   title: 'DISCOVER Summit 2027 · 11th annual supply chain leadership summit',
   description:
-    'Two days, 100+ supply chain leaders and the DISCOVER Gala. Get your Summit Pass or All-Access membership for the 11th annual DISCOVER Summit, September 2027 in New York.',
+    'Two days, 100+ supply chain leaders and the DISCOVER Gala. Get your Summit Pass, bring your team or sponsor the 11th annual DISCOVER Summit, September 2027 in New York.',
 };
 
 const DAYS = [
@@ -85,7 +85,7 @@ const MOMENTS = [
   { name: 'networking', alt: 'Leaders talking between sessions' },
   { name: 'panel-women', alt: 'Panelists on the DISCOVER stage' },
   { name: 'dance', alt: 'The Gala dance floor' },
-  { name: 'workshop', alt: 'Workshop teams presenting ideas' },
+  { name: 'r-03', alt: 'Workshop teams sharing ideas' },
   { name: 'awards', alt: 'Award winners on stage' },
   { name: 'conga', alt: 'Gala night celebration across the ballroom', span: 'wide' as const },
   { name: 'group-stairs', alt: 'Summit attendees gathered for a group photo', span: 'wide' as const },
@@ -98,13 +98,13 @@ const BENTO = [
   { area: 'gala', name: 'gala', alt: 'Award moment at the DISCOVER Gala', label: 'Gala awards', video: true, pos: '50% 18%' },
   { area: 'joy', name: 'joy', alt: 'Attendee celebrating on the dance floor', label: 'Gala night', pos: '50% 25%' },
   { area: 'net', name: 'networking', alt: 'Leaders talking between sessions', label: 'Between sessions' },
-  { area: 'work', name: 'workshop', alt: 'Workshop teams presenting ideas', label: 'Workshops', pos: '45% 40%' },
+  { area: 'work', name: 'r-03', alt: 'Workshop teams sharing ideas', label: 'Workshops' },
   { area: 'dance', name: 'dance', alt: 'The Gala dance floor', label: 'The dance floor', video: true },
   { area: 'awards', name: 'awards', alt: 'Award winners on stage', label: 'Recognition', pos: '35% 40%' },
 ];
 
 const RIVER = [
-  ['r-01', 'Keynote on the DISCOVER stage'], ['r-02', 'Panelists in conversation'], ['r-03', 'Workshop teams sharing ideas'],
+  ['r-01', 'Keynote on the DISCOVER stage'], ['r-02', 'Panelists in conversation'],
   ['r-04', 'Friends at the Gala reception'], ['r-05', 'Host on stage at the Gala'], ['r-06', 'Attendee at the Gala'],
   ['r-07', 'The dance floor at the Gala'], ['r-08', 'Attendee portrait at the photo wall'], ['r-09', 'Speaker on stage'],
   ['r-10', 'Keynote at the podium'], ['r-11', 'Executive panel'], ['r-12', 'Fireside chat'],
@@ -122,7 +122,7 @@ const LOGOS = [
 const FAQ: [string, React.ReactNode][] = [
   ['Where is the Summit held?', 'In New York, in September 2027. The venue and the discounted hotel room block are announced with the 2027 details.'],
   ['Who is the Summit for?', 'Supply chain professionals at every stage, from students and early-career talent to directors and executives, across pharma, consumer goods, retail, consulting and academia.'],
-  ["What's included in my pass?", 'Both Summit days, all meals, the DISCOVER Gala, the career fair and workshops. All-Access adds 12 months of membership.'],
+  ["What's included in my pass?", 'Both Summit days, all meals, the DISCOVER Gala, the career fair and workshops.'],
   ['Can I bring a guest to the Gala only?', "Yes. Gala guest passes are $49 for people who aren't attending the Summit sessions."],
   ["What's the refund policy?", 'Passes can be transferred to a colleague. Full refund and transfer terms are shown at checkout.'],
   ['How can my organization sponsor?', <>Partnerships run from $3,000 up to Summit Host Partner. See the <Link href="/sponsors#tiers">sponsorship tiers</Link> or request the prospectus.</>],
@@ -245,7 +245,7 @@ export default function SummitPage() {
         <div className="wrap">
           <div className="sec-head reveal">
             <div><h2>Come for the Summit. Stay for the year.</h2></div>
-            <p>Every pass includes both days, all meals and the Gala. All-Access adds a full year of DISCOVER community.</p>
+            <p>Every pass includes both days, all meals and the Gala. Bringing a team or want your organization on stage? Pick the option that fits.</p>
           </div>
           <div className="prices reveal stagger">
             <div className="price">
@@ -254,17 +254,25 @@ export default function SummitPage() {
               <ul><li>All keynotes, panels and breakouts</li><li>Career fair and workshops</li><li>DISCOVER Gala dinner</li><li>Summit photo and recap pack</li></ul>
               <a className="btn btn-ghost" href="mailto:info@discover-org.us?subject=Summit%202027%20pass">Buy Summit Pass</a>
             </div>
-            <div className="price feat"><span className="badge">BEST VALUE</span>
-              <div className="k">Summit + 12 months</div><h3>All-Access</h3>
-              <div className="amt">$349 <small>/ year</small></div><div className="note">Everything in the Summit Pass, plus a year of community. Save $49.</div>
-              <ul><li>Everything in Summit Pass</li><li>12 months of DISCOVER membership</li><li>Every live Career Development Chat and the replay library</li><li>Member directory and network access</li><li>Member pricing on Earth Day and other events</li></ul>
-              <Link className="btn btn-primary" href="/professionals#join">Get All-Access <span className="arr">→</span></Link>
+            <div className="price feat"><span className="badge">FOR TEAMS</span>
+              <div className="k">Teams of 4+</div><h3>Team &amp; Corporate</h3>
+              <div className="amt amt-text">Group rates</div><div className="note">Send your rising leaders together. Bundled with Corporate Membership.</div>
+              <ul><li>Discounted passes for 4+ colleagues</li><li>One invoice, one point of contact</li><li>Optional exhibit table</li><li>Upgrade to sponsorship any time</li></ul>
+              <Link className="btn btn-primary" href="/sponsors#prospectus">Talk to us <span className="arr">→</span></Link>
             </div>
             <div className="price">
-              <div className="k">Teams of 4+</div><h3>Team &amp; Corporate</h3>
-              <div className="amt" style={{ fontSize: '2.2rem', marginTop: 26 }}>Group rates</div><div className="note">Send your rising leaders together. Bundled with Corporate Membership.</div>
-              <ul><li>Discounted passes for 4+ colleagues</li><li>One invoice, one point of contact</li><li>Optional exhibit table</li><li>Upgrade to sponsorship any time</li></ul>
-              <Link className="btn btn-ghost" href="/sponsors#prospectus">Talk to us</Link>
+              <div className="k">Partners &amp; sponsors</div><h3>Explore sponsorship</h3>
+              <div className="amt amt-text">Be at the center</div><div className="note">Put your organization at the center of the conversation.</div>
+              <ul>
+                <li><span><b>Talent engagement:</b> meet students and early-career talent from Rutgers, Penn State and partner universities</span></li>
+                <li><span><b>Brand visibility:</b> your leaders on stage, your name in the program and at the Gala</span></li>
+                <li><span><b>Industry relationships:</b> sit with supply chain leaders from 25+ companies</span></li>
+                <li><span><b>Academic connections:</b> partner with universities through the Diverse Talent Network</span></li>
+              </ul>
+              <div className="price-ctas">
+                <Link className="btn btn-ghost" href="/sponsors">Explore sponsorship</Link>
+                <Link className="btn-link" href="/sponsors#host">Host the Summit →</Link>
+              </div>
             </div>
           </div>
           <div className="s-approval reveal">
@@ -278,32 +286,6 @@ export default function SummitPage() {
       {/* Personal pass */}
       <section className="s-pass">
         <div className="wrap reveal"><SummitPass /></div>
-      </section>
-
-      {/* 08 · Corporate sponsorship */}
-      <section className="mist">
-        <div className="wrap">
-          <div className="sponsor-box reveal">
-            <div className="sponsor-ph"><Photo name="stage" alt="The DISCOVER stage ready for the Summit" sizes="(max-width: 980px) 100vw, 45vw" /></div>
-            <div className="sponsor-in">
-              <h2>Put your organization at the center of the conversation.</h2>
-              <div className="perks reveal stagger">
-                {[
-                  ['talent', 'Talent engagement', 'Meet students and early-career talent from Rutgers, Penn State and partner universities.'],
-                  ['brand', 'Brand visibility', 'Your leaders on stage, your name in the program and at the Gala.'],
-                  ['relations', 'Industry relationships', 'Sit at the same table as supply chain leaders from 25+ companies.'],
-                  ['academic', 'Academic connections', 'Partner with universities through the Diverse Talent Network.'],
-                ].map(([k, h, p]) => (
-                  <div className="perk" key={k}><span className="why-ico">{Icon[k as 'talent']}</span><b>{h}</b><p>{p}</p></div>
-                ))}
-              </div>
-              <div className="ctas">
-                <Link className="btn btn-primary" href="/sponsors">Explore sponsorship <span className="arr">→</span></Link>
-                <Link className="btn btn-ghost" href="/sponsors#host">Host the Summit</Link>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* 09 · FAQ */}

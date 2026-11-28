@@ -9,14 +9,10 @@ const past = (y: string): YearShot[] =>
     return { src: `/assets/years/${id}-1600.jpg`, thumb: `/assets/years/${id}-600.jpg`, alt: `DISCOVER Summit ${y}, photo ${n}` };
   });
 
-const SUMMIT_2026 = ['group-stairs', 'hall', 'keynote', 'panel', 'gala', 'networking', 'workshop', 'dance', 'awards', 'joy', 'breakouts', 'voice-keynote-2'];
-// More 2026 photos from the gallery, picked by hand and checked for near-duplicates.
-const MORE_2026 = [129, 137, 154, 163, 180, 188, 198, 206, 215, 225, 238, 247, 260, 268, 279, 290, 303, 311, 319, 337, 350, 370];
+// 2026 photos from the gallery, chosen so none repeats elsewhere on the Summit page.
+const PICK_2026 = [98,  102,  106,  130,  137,  142,  146,  151,  156,  162,  168,  172,  176,  181,  185,  191,  198,  202,  206,  212,  216,  220,  226,  247,  251,  264,  268,  273,  281,  317,  324,  340,  354,  358];
 const g3 = (i: number) => String(i).padStart(3, '0');
-const now = [
-  ...SUMMIT_2026.map((n) => ({ src: `/assets/summit/${n}-1600.jpg`, thumb: `/assets/summit/${n}-800.jpg` })),
-  ...MORE_2026.map((i) => ({ src: `/assets/gallery/l/${g3(i)}.webp`, thumb: `/assets/gallery/t/${g3(i)}.webp` })),
-].map((s, i) => ({ ...s, alt: `DISCOVER Summit 2026, photo ${i + 1}` }));
+const now = PICK_2026.map((i, k) => ({ src: `/assets/gallery/l/${g3(i)}.webp`, thumb: `/assets/gallery/t/${g3(i)}.webp`, alt: `DISCOVER Summit 2026, photo ${k + 1}` }));
 
 /** Every Summit since 2017: discover-org.us/gallery, the DISCOVER Dropbox (2024, 2025) and the 2026 gallery. */
 export const YEARS: Year[] = [
