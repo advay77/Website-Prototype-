@@ -63,6 +63,7 @@ const STORIES: Story[] = [
   { k: 'Committee chair', h: 'First-time attendee to committee chair in one year', photos: [], video: vid(1, 0.47) },
   { k: 'Student', h: 'From one business school event to the Summit', photos: [], video: vid(2, 0.45) },
   { k: 'VP, Johnson & Johnson', h: 'Three Summits in, the relationships keep growing', photos: [], video: vid(8, 0.5) },
+  { k: 'Community', h: 'The 2025 class, all in one frame', photos: [], video: vid(6, 0.5), wide: true },
   { k: 'First-time attendee', h: 'Meeting the people behind the decisions you read about', photos: [], video: vid(3, 0.5) },
   { k: 'Student · Rutgers', h: 'Connections with the people I’d want to work for', photos: [], video: vid(11, 0.5) },
   { k: 'Partner', h: 'It feels like an extended family', photos: [], video: vid(7, 0.5) },
@@ -75,7 +76,6 @@ const STORIES: Story[] = [
   { k: 'Industry leader', h: 'Belonging, talent and AI in one room', photos: [], video: vid(15, 0.5) },
   { k: 'Student · Temple University', h: 'Two days of speakers who inspire', photos: [], video: vid(9, 0.5) },
   { k: 'First-time attendee', h: 'The keynote that spoke to my heart', photos: [], video: vid(14, 0.5) },
-  { k: 'Community', h: 'The 2025 class, all in one frame', photos: [], video: vid(6, 0.5), wide: true },
 ];
 
 const MOMENTS = [
