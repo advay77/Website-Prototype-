@@ -21,7 +21,7 @@ import './summit.css';
 export const metadata: Metadata = {
   title: 'DISCOVER Summit 2027 · 11th annual supply chain leadership summit',
   description:
-    'Two days, 100+ supply chain leaders and the DISCOVER Gala. Get your Summit Pass or All-Access membership for the 11th annual DISCOVER Summit, September 2027 in New Jersey.',
+    'Two days, 100+ supply chain leaders and the DISCOVER Gala. Get your Summit Pass or All-Access membership for the 11th annual DISCOVER Summit, September 2027 in New York.',
 };
 
 const DAYS = [
@@ -110,7 +110,7 @@ const LOGOS = [
 
 
 const FAQ: [string, React.ReactNode][] = [
-  ['Where is the Summit held?', 'In New Jersey, in September 2027. The venue and the discounted hotel room block are announced with the 2027 details.'],
+  ['Where is the Summit held?', 'In New York, in September 2027. The venue and the discounted hotel room block are announced with the 2027 details.'],
   ['Who is the Summit for?', 'Supply chain professionals at every stage, from students and early-career talent to directors and executives, across pharma, consumer goods, retail, consulting and academia.'],
   ["What's included in my pass?", 'Both Summit days, all meals, the DISCOVER Gala, the career fair and workshops. All-Access adds 12 months of membership.'],
   ['Can I bring a guest to the Gala only?', "Yes. Gala guest passes are $49 for people who aren't attending the Summit sessions."],
@@ -135,7 +135,7 @@ export default function SummitPage() {
       {/* 01 · Hero: scroll walks the camera from the back of the hall to the stage */}
       <ScrollHero />
 
-      <section className="dark s-stats">
+      <section className="dark s-stats" id="why">
         <div className="wrap">
           <div className="stats">
             <div><small>EDITION</small><b><CountUp to={11} /><sup>th</sup></b><span>annual Summit since 2017</span></div>

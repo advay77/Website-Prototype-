@@ -20,7 +20,7 @@ export function StickyRegister() {
   }, []);
   return (
     <div className={`sticky-reg${show ? ' on' : ''}`} aria-hidden={!show}>
-      <div><b>DISCOVER Summit 2027</b><span>Sept · New Jersey · from $299</span></div>
+      <div><b>DISCOVER Summit 2027</b><span>Sept · New York · from $299</span></div>
       <a className="btn btn-primary" href="#tickets" tabIndex={show ? 0 : -1}>Register</a>
     </div>
   );

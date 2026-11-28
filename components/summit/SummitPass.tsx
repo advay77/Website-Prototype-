@@ -27,7 +27,7 @@ async function render(name: string, title: string, company: string, pass: string
   g.fillStyle = '#fff'; g.font = '700 72px Inter, system-ui, sans-serif';
   g.fillText('DISCOVER', 80, 205); g.fillText('Summit 2027', 80, 285);
   g.fillStyle = '#c8d4f2'; g.font = '500 32px Inter, system-ui, sans-serif';
-  g.fillText('September 2027', 80, 345); g.fillText('New Jersey', 80, 390);
+  g.fillText('September 2027', 80, 345); g.fillText('New York', 80, 390);
 
   // badge
   g.save(); g.translate(830, 700); g.rotate(-0.06);

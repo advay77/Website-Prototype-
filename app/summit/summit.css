@@ -197,10 +197,10 @@
 }
 
 /* ---------- Scroll hero ---------- */
-.sh { position: relative; height: 340vh; padding: 0; background: var(--ink); color: #fff; }
-.sh-stick { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.sh { position: relative; padding: 0; background: var(--ink); color: #fff; }
+.sh-stick { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; }
 .sh-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; background: var(--ink) center / cover no-repeat; }
-.sh-film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; will-change: opacity; }
+.sh-film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; background: var(--ink) url(/assets/video/hero-poster.jpg) center / cover; }
 .sh-shade { position: absolute; inset: 0; pointer-events: none;
   background:
     linear-gradient(90deg, rgba(8,22,52,.9) 0%, rgba(8,22,52,.62) 38%, rgba(8,22,52,.12) 72%, rgba(8,22,52,.05) 100%),
@@ -219,7 +219,7 @@
 .sh-outro .tag { color: var(--sky); justify-content: center; }
 .sh-outro b { display: block; font-family: var(--head); font-weight: 600; font-size: clamp(3rem, 8vw, 6.5rem); letter-spacing: -0.04em; line-height: 1; text-shadow: 0 10px 60px rgba(4,12,32,.6); }
 .sh-outro .ctas { display: flex; justify-content: center; margin-top: 28px; }
-.sh-hint { position: absolute; left: 50%; bottom: 34px; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 10px; font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: #c9d6ea; }
+.sh-hint { text-decoration: none; position: absolute; left: 50%; bottom: 34px; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 10px; font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: #c9d6ea; }
 .sh-hint i { width: 1px; height: 40px; background: linear-gradient(var(--sky), transparent); animation: hint 1.8s ease-in-out infinite; transform-origin: top; }
 @keyframes hint { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
 .sh-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.08); }
@@ -252,7 +252,6 @@
 /* ---------- Sticky register (phones) ---------- */
 .sticky-reg { display: none; }
 @media (max-width: 980px) {
-  .sh { height: 280vh; }
   .sh-shade { background: linear-gradient(180deg, rgba(8,22,52,.35) 0%, rgba(8,22,52,.25) 30%, rgba(8,22,52,.85) 62%, rgba(8,22,52,.96) 100%); }
   .sh-layer { align-items: flex-end; padding-bottom: 56px; }
   .sh-hint { display: none; }
