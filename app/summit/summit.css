@@ -647,3 +647,16 @@
 .no-truck .route-stop:hover i { transform: scale(1.12); }
 .no-truck .route-stop.on:hover i { transform: scale(1.45); }
 .yr-num { font-family: var(--head); font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; font-weight: 700; color: rgba(255,255,255,.14); letter-spacing: -.02em; margin-bottom: 6px; }
+/* Agenda: the truck route sits beside the Day 1 / Day 2 tabs, not under them */
+.route-agenda .route-top { flex-wrap: nowrap; align-items: center; gap: 28px; margin-bottom: 18px; }
+.route-agenda .route-head { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; flex: none; }
+.route-agenda .route-map { flex: 1 1 auto; min-width: 0; height: 150px; margin: 0; }
+.route-agenda .route-line, .route-agenda .route-done { top: 50px; }
+.route-agenda .route-stop { top: 28px; }
+.route-agenda .route-truck { top: -26px; }
+@media (max-width: 980px) {
+  .route-agenda .route-top { flex-wrap: wrap; gap: 14px; }
+  .route-agenda .route-head { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; flex-wrap: wrap; }
+  .route-agenda .route-map { flex-basis: 100%; height: 150px; margin-top: 10px; }
+}
+.route-agenda .route-top { padding-top: 16px; }
