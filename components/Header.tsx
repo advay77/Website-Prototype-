@@ -12,7 +12,7 @@ export function Header() {
   return (
     <>
       <div className="announce">
-        <b>DISCOVER Summit 2027</b> · 11th annual · September 2027, New Jersey · Early-bird passes open
+        <b>DISCOVER Summit 2027</b> · 11th annual · September 2027, New York · Early-bird passes open
         <Link href="/summit#tickets">Get your pass</Link>
       </div>
       <header className={`site${open ? ' open' : ''}`}>
