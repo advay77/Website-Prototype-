@@ -143,10 +143,10 @@ export function Wall() {
           <h2>Drag to explore.</h2>
         </div>
         <div className="wall-filters" role="tablist" aria-label="Year">
-          <button role="tab" aria-selected={year === null} className={year === null ? 'on' : ''} onClick={() => setYear(null)}>All <small>{ITEMS.length}</small></button>
+          <button role="tab" aria-selected={year === null} className={year === null ? 'on' : ''} onClick={() => setYear(null)}>All</button>
           {YEARS.map((y) => (
             <button key={y} role="tab" aria-selected={year === y} className={year === y ? 'on' : ''} onClick={() => setYear(y)}>
-              {y} <small>{ITEMS.filter((x) => x.y === y).length}</small>
+              {y}
             </button>
           ))}
         </div>
