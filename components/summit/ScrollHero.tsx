@@ -1,18 +1,46 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
+// Three scenes, each slowly zooming in, then cross-fading to the next.
+const SCENES = [
+  { video: true },
+  { src: '/assets/years/2024-21-1600.jpg', origin: '50% 70%' }, // 2024 New York, the whole room
+  { src: '/assets/gallery/l/442.webp', origin: '50% 60%' },      // 2026 Gala, conga line
+] as const;
+const SCENE_MS = 8000;
+
 /**
- * Summit hero: the home-page film (one slow move from the back of the hall to
- * the stage) loops behind the headline. No scroll sequence; the page simply
- * scrolls on to the next section.
+ * Summit hero: three scenes behind the headline. The home-page film (back of
+ * the hall to the stage), then two Summit photos, each zooming in slowly and
+ * cross-fading to the next. No scroll sequence.
  */
 export function ScrollHero() {
+  const [{ at, prev, run }, setS] = useState({ at: 0, prev: -1, run: 0 });
+  const film = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const id = setTimeout(() => setS((x) => ({ at: (x.at + 1) % SCENES.length, prev: x.at, run: x.run + 1 })), SCENE_MS);
+    return () => clearTimeout(id);
+  }, [at]);
+  useEffect(() => {
+    const v = film.current; if (!v) return;
+    if (at === 0) { v.currentTime = 0; v.play().catch(() => {}); }
+  }, [at]);
+
   return (
     <section className="sh" aria-label="DISCOVER Summit 2027">
       <div className="sh-stick">
-        <video className="sh-film" autoPlay muted loop playsInline preload="auto" poster="/assets/video/hero-poster.jpg" aria-hidden="true">
+        <video ref={film} className={`sh-film sh-scene${at === 0 ? ' on' : ''}`} autoPlay muted playsInline preload="auto" poster="/assets/video/hero-poster.jpg" aria-hidden="true">
           <source src="/assets/video/hero.webm" type="video/webm" />
           <source src="/assets/video/hero.mp4" type="video/mp4" />
         </video>
+        {SCENES.map((sc, i) => 'src' in sc && (
+          <div key={sc.src} className={`sh-scene sh-photo${at === i ? ' on' : ''}${prev === i ? ' out' : ''}`} aria-hidden="true">
+            {/* a new key each time the scene comes back restarts its zoom; it keeps zooming while it fades out */}
+            <img key={at === i ? run : run - 1} src={sc.src} alt="" style={{ transformOrigin: sc.origin }} loading={i === 1 ? 'eager' : 'lazy'} />
+          </div>
+        ))}
         <div className="sh-shade" aria-hidden="true" />
 
         <div className="wrap sh-layer">
