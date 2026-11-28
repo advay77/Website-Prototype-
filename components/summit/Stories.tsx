@@ -114,6 +114,13 @@ export function Stories({ items }: { items: Story[] }) {
     return () => { t.removeEventListener('scroll', onScroll); removeEventListener('resize', measure); };
   }, []);
 
+  // How many stories have been shown up to the current page (the wide card counts as one).
+  const seen = () => {
+    const t = track.current;
+    if (!t) return Math.min(items.length, (page + 1) * per);
+    const step = t.clientWidth + (parseFloat(getComputedStyle(t).columnGap) || 0);
+    return Array.from(t.children).filter((c) => (c as HTMLElement).offsetLeft < (page + 1) * step - 2).length;
+  };
   const go = (p: number) => {
     const t = track.current!;
     const next = (p + pages) % pages;
@@ -135,7 +142,7 @@ export function Stories({ items }: { items: Story[] }) {
         <div className="stories-bar">
           <div className="stories-pager" aria-hidden="true">
             {Array.from({ length: pages }, (_, i) => <i key={i} className={i === page ? 'on' : ''} />)}
-            <span>{String(page >= pages - 1 ? items.length : Math.min(items.length, (page + 1) * per)).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
+            <span>{String(seen()).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
           </div>
           <div className="stories-ctl">
             <button className="stories-arrow" onClick={() => go(page - 1)} disabled={page === 0} aria-label="Previous stories">{Arrow(true)}</button>
