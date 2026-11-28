@@ -7,6 +7,7 @@ export type Story = {
   h: string;
   photos: string[]; // full image URLs; they rotate every few seconds
   video?: { src: string; poster: string; x?: number }; // x: horizontal focus (0-1) for the portrait card crop
+  wide?: boolean; // fills a whole page (all three frames)
 };
 
 const EVERY = 3500;
@@ -52,7 +53,7 @@ function StoryCard({ s, index, live, onPlay }: { s: Story; index: number; live: 
   useEffect(() => { if (!live) stop(); }, [live]);
 
   return (
-    <article ref={card} className={`story${s.video ? ' has-video' : ''}${playing ? ' playing' : ''}`}
+    <article ref={card} className={`story${s.video ? ' has-video' : ''}${s.wide ? ' wide' : ''}${playing ? ' playing' : ''}`}
       onPointerEnter={(e) => { if (s.video && e.pointerType === 'mouse') start(); }}
       onPointerLeave={(e) => { if (s.video && e.pointerType === 'mouse') stop(); }}>
       {s.video ? (
@@ -87,6 +88,7 @@ export function Stories({ items }: { items: Story[] }) {
   const root = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
   const [pages, setPages] = useState(1);
+  const [per, setPer] = useState(PER_VIEW);
   const [live, setLive] = useState(false);
   const [video, setVideo] = useState<Story | null>(null);
   const snapBack = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -99,8 +101,13 @@ export function Stories({ items }: { items: Story[] }) {
 
   useEffect(() => {
     const t = track.current!;
-    const measure = () => setPages(Math.max(1, Math.round(t.scrollWidth / t.clientWidth)));
-    const onScroll = () => setPage(Math.round(t.scrollLeft / t.clientWidth));
+    const step = () => t.clientWidth + (parseFloat(getComputedStyle(t).columnGap) || 0);
+    const measure = () => {
+      setPages(Math.max(1, Math.round((t.scrollWidth + step() - t.clientWidth) / step())));
+      const c = t.firstElementChild as HTMLElement | null;
+      if (c) setPer(Math.max(1, Math.round(step() / (c.offsetWidth + (parseFloat(getComputedStyle(t).columnGap) || 0)))));
+    };
+    const onScroll = () => setPage(Math.round(t.scrollLeft / step()));
     measure();
     t.addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', measure);
@@ -113,7 +120,7 @@ export function Stories({ items }: { items: Story[] }) {
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     // Scroll-snap cancels a smooth programmatic scroll in Chromium, so pause it while we glide.
     t.style.scrollSnapType = 'none';
-    t.scrollTo({ left: next * t.clientWidth, behavior: reduce ? 'auto' : 'smooth' });
+    t.scrollTo({ left: next * (t.clientWidth + (parseFloat(getComputedStyle(t).columnGap) || 0)), behavior: reduce ? 'auto' : 'smooth' });
     clearTimeout(snapBack.current);
     snapBack.current = setTimeout(() => { t.style.scrollSnapType = ''; }, reduce ? 0 : 900);
   };
@@ -128,7 +135,7 @@ export function Stories({ items }: { items: Story[] }) {
         <div className="stories-bar">
           <div className="stories-pager" aria-hidden="true">
             {Array.from({ length: pages }, (_, i) => <i key={i} className={i === page ? 'on' : ''} />)}
-            <span>{String(Math.min(items.length, Math.round(((page + 1) * items.length) / pages))).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
+            <span>{String(page >= pages - 1 ? items.length : Math.min(items.length, (page + 1) * per)).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
           </div>
           <div className="stories-ctl">
             <button className="stories-arrow" onClick={() => go(page - 1)} disabled={page === 0} aria-label="Previous stories">{Arrow(true)}</button>
