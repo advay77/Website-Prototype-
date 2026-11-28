@@ -68,8 +68,9 @@ export function RouteAgenda({ days }: { days: Day[] }) {
   const s = d.slots[stop];
 
   return (
-    <div className="route" ref={root}>
+    <div className="route route-agenda" ref={root}>
       <div className="route-top">
+        <div className="route-head">
         <div className="xp-tabs route-tabs" role="tablist" aria-label="Summit days">
           {days.map((dd, i) => (
             <button key={dd.key} role="tab" aria-selected={i === day} className={i === day ? 'on' : ''} onClick={() => { setAuto(false); setDay(i); setStop(0); }}>
@@ -78,7 +79,7 @@ export function RouteAgenda({ days }: { days: Day[] }) {
           ))}
         </div>
         <span className="route-eta"><i />{d.label} · stop {stop + 1} of {n}</span>
-      </div>
+        </div>
 
       <div className="route-map">
         <div className="route-line" />
@@ -91,6 +92,7 @@ export function RouteAgenda({ days }: { days: Day[] }) {
             <small>{sl.time}</small>
           </button>
         ))}
+      </div>
       </div>
 
       <div className="route-card" key={`${day}-${stop}`}>
