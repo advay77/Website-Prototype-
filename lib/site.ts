@@ -7,4 +7,5 @@ export const NAV: [href: string, label: string, key: string][] = [
   ['/summit', 'Summit 2027', 'summit'],
   ['/gallery', 'Gallery', 'gallery'],
   ['/about', 'About', 'about'],
+  ['/contact', 'Contact', 'contact'],
 ];
