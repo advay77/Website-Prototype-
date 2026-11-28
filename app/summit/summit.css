@@ -669,3 +669,18 @@
 .sh-photo img { width: 100%; height: 100%; object-fit: cover; transform: scale(1); }
 .sh-photo.on img, .sh-photo.out img { animation: shZoom 9.6s linear both; }
 @keyframes shZoom { from { transform: scale(1); } to { transform: scale(1.22); } }
+/* Pricing: text headline in place of a price, and two actions in the sponsorship card */
+.price .amt-text { font-size: 2.1rem; margin-top: 26px; }
+.price ul li b { font-weight: 600; }
+.price-ctas { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
+.price-ctas .btn { width: 100%; justify-content: center; }
+.btn-link { align-self: center; font-weight: 600; color: var(--blue); text-decoration: none; }
+.btn-link:hover { text-decoration: underline; }
+/* Phones: 16 pager dots do not fit; show the counter only */
+@media (max-width: 760px) {
+  .stories-bar { gap: 10px; }
+  .stories-pager i { display: none; }
+  .stories-pager span { margin-left: 0; }
+  .stories-ctl { flex: none; }
+}
+.price ul { align-content: start; }
