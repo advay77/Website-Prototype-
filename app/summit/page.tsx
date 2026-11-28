@@ -60,22 +60,22 @@ const SPEAKERS = [
 const vid = (n: number, x: number) => ({ src: `/assets/summit/stories/v${n}.mp4`, poster: `/assets/summit/stories/v${n}.jpg`, x });
 // Interviews recorded at the 2025 Summit in Jersey City (DISCOVER Dropbox), trimmed to the answer.
 const STORIES: Story[] = [
-  { k: 'Committee chair · 2025', h: 'First-time attendee to committee chair in one year', photos: [], video: vid(1, 0.47) },
-  { k: 'Student · 2025', h: 'From one business school event to the Summit', photos: [], video: vid(2, 0.45) },
-  { k: 'VP, Johnson & Johnson · 2025', h: 'Three Summits in, the relationships keep growing', photos: [], video: vid(8, 0.5) },
-  { k: 'First-time attendee · 2025', h: 'Meeting the people behind the decisions you read about', photos: [], video: vid(3, 0.5) },
+  { k: 'Committee chair', h: 'First-time attendee to committee chair in one year', photos: [], video: vid(1, 0.47) },
+  { k: 'Student', h: 'From one business school event to the Summit', photos: [], video: vid(2, 0.45) },
+  { k: 'VP, Johnson & Johnson', h: 'Three Summits in, the relationships keep growing', photos: [], video: vid(8, 0.5) },
+  { k: 'First-time attendee', h: 'Meeting the people behind the decisions you read about', photos: [], video: vid(3, 0.5) },
   { k: 'Student · Rutgers', h: 'Connections with the people I’d want to work for', photos: [], video: vid(11, 0.5) },
-  { k: 'Partner · 2025', h: 'It feels like an extended family', photos: [], video: vid(7, 0.5) },
-  { k: 'Founder · 2025', h: 'Building a startup? Start with the supply chain', photos: [], video: vid(4, 0.45) },
+  { k: 'Partner', h: 'It feels like an extended family', photos: [], video: vid(7, 0.5) },
+  { k: 'Founder', h: 'Building a startup? Start with the supply chain', photos: [], video: vid(4, 0.45) },
   { k: 'Engineering student · NJIT', h: 'An engineer who found a place in supply chain', photos: [], video: vid(12, 0.47) },
   { k: 'Manager · first Summit', h: 'Honest conversations with VPs, not just small talk', photos: [], video: vid(16, 0.48) },
   { k: 'Student · Business analytics', h: 'I found my place in supply chain', photos: [], video: vid(5, 0.48) },
-  { k: 'Returning attendee · 2025', h: 'I came back, and brought my people with me', photos: [], video: vid(10, 0.48) },
+  { k: 'Returning attendee', h: 'I came back, and brought my people with me', photos: [], video: vid(10, 0.48) },
   { k: 'Marketing student · Rutgers', h: 'Not a supply chain major, and still welcome', photos: [], video: vid(13, 0.5) },
-  { k: 'Industry leader · 2025', h: 'Belonging, talent and AI in one room', photos: [], video: vid(15, 0.5) },
+  { k: 'Industry leader', h: 'Belonging, talent and AI in one room', photos: [], video: vid(15, 0.5) },
   { k: 'Student · Temple University', h: 'Two days of speakers who inspire', photos: [], video: vid(9, 0.5) },
-  { k: 'First-time attendee · 2025', h: 'The keynote that spoke to my heart', photos: [], video: vid(14, 0.5) },
-  { k: 'Community · 2025', h: 'The 2025 class, all in one frame', photos: [], video: vid(6, 0.5), wide: true },
+  { k: 'First-time attendee', h: 'The keynote that spoke to my heart', photos: [], video: vid(14, 0.5) },
+  { k: 'Community', h: 'The 2025 class, all in one frame', photos: [], video: vid(6, 0.5), wide: true },
 ];
 
 const MOMENTS = [
@@ -95,7 +95,7 @@ const MOMENTS = [
 
 const BENTO = [
   { area: 'hall', name: 'hall', alt: 'The full Summit ballroom during a keynote', label: 'Keynote morning', video: true },
-  { area: 'gala', name: 'gala', alt: 'Award moment at the DISCOVER Gala', label: 'Gala awards', video: true },
+  { area: 'gala', name: 'gala', alt: 'Award moment at the DISCOVER Gala', label: 'Gala awards', video: true, pos: '50% 18%' },
   { area: 'joy', name: 'joy', alt: 'Attendee celebrating on the dance floor', label: 'Gala night', pos: '50% 25%' },
   { area: 'net', name: 'networking', alt: 'Leaders talking between sessions', label: 'Between sessions' },
   { area: 'work', name: 'workshop', alt: 'Workshop teams presenting ideas', label: 'Workshops', pos: '45% 40%' },

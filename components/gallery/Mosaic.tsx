@@ -47,6 +47,23 @@ export function Mosaic() {
         const photo = on ? (k++ * 37) % N : ((r * cols + c) * 13) % N;
         cells.push({ c, r, on, col: `rgb(${px[j]},${px[j + 1]},${px[j + 2]})`, photo, sx: (photo % AC) * T, sy: Math.floor(photo / AC) * T, d: Math.random(), lift: 0 });
       }
+      // The tiny tagline under the logo turns into grey specks at this size;
+      // small islands of tiles become ordinary background photos instead.
+      const seen = new Uint8Array(cells.length);
+      for (let i0 = 0; i0 < cells.length; i0++) {
+        if (!cells[i0].on || seen[i0]) continue;
+        const comp: number[] = [], stack = [i0]; seen[i0] = 1;
+        while (stack.length) {
+          const i = stack.pop()!; comp.push(i);
+          const c = i % cols, r = (i / cols) | 0;
+          for (const [dc, dr] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+            const nc = c + dc, nr = r + dr, j = nr * cols + nc;
+            if (nc >= 0 && nc < cols && nr >= 0 && nr < rows && !seen[j] && cells[j].on) { seen[j] = 1; stack.push(j); }
+          }
+        }
+        const rs = comp.map((i) => (i / cols) | 0), tall = Math.max(...rs) - Math.min(...rs) + 1;
+        if (tall <= Math.max(4, rows * 0.22)) for (const i of comp) cells[i].on = false;
+      }
       // focal tile: a filled cell near the middle of the logo
       const mid = cells.filter((x) => x.on).sort((a, b) => Math.hypot(a.c - cols * 0.5, a.r - rows * 0.5) - Math.hypot(b.c - cols * 0.5, b.r - rows * 0.5));
       focal = cells.indexOf(mid[0]);
@@ -76,7 +93,7 @@ export function Mosaic() {
       // Magnifier: only while the logo is at rest (not mid-dive).
       const mag = reduce ? 0 : (1 - ramp(p, 0, 0.04)) * ramp(assemble, 0.85, 1);
       if (mag > 0 && ptr.auto) { ptr.t += 0.006; ptr.x = W * (0.5 + 0.38 * Math.sin(ptr.t * 1.2)); ptr.y = oy + rows * s * (0.5 + 0.3 * Math.sin(ptr.t * 2.1)); }
-      const sigma = Math.max(40, s * 3.2);
+      const sigma = Math.max(24, s * 4.4);
       let moving = false;
       const top: { cl: Cell; X: number; Y: number; S: number }[] = [];
       for (const cl of cells) {
@@ -91,7 +108,7 @@ export function Mosaic() {
         if (!cl.on && ghost + cl.lift * 0.5 < 0.01) continue;
         if (cl.lift > 0.02) {
           const dx = X + S / 2 - ptr.x, dy = Y + S / 2 - ptr.y, dd = Math.hypot(dx, dy) || 1;
-          const grow = 1 + cl.lift * (cl.on ? 2.4 : 0.7), push = cl.lift * s * (cl.on ? 1.3 : 0.5);
+          const grow = 1 + cl.lift * (cl.on ? 3.4 : 1.0), push = cl.lift * s * (cl.on ? 1.8 : 0.7);
           const S2 = S * grow; X = X + S / 2 + (dx / dd) * push - S2 / 2; Y = Y + S / 2 + (dy / dd) * push - S2 / 2; S = S2;
           if (cl.on && cl.lift > 0.05) { top.push({ cl, X, Y, S }); continue; }
         }

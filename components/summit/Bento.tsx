@@ -6,7 +6,7 @@ import { Lightbox, type Shot } from './Lightbox';
 export type Tile = { area: string; name: string; alt: string; label: string; video?: boolean; pos?: string };
 
 /** A looping clip that only plays while on screen (and never with reduced motion). */
-function Clip({ name, alt }: { name: string; alt: string }) {
+function Clip({ name, alt, pos }: { name: string; alt: string; pos?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const v = ref.current!;
@@ -16,7 +16,7 @@ function Clip({ name, alt }: { name: string; alt: string }) {
     return () => io.disconnect();
   }, []);
   return (
-    <video ref={ref} muted loop playsInline preload="none" poster={`/assets/summit/clips/${name}.jpg`} aria-label={alt}>
+    <video ref={ref} muted loop playsInline preload="none" poster={`/assets/summit/clips/${name}.jpg`} aria-label={alt} style={pos ? { objectPosition: pos } : undefined}>
       <source src={`/assets/summit/clips/${name}.webm`} type="video/webm" />
       <source src={`/assets/summit/clips/${name}.mp4`} type="video/mp4" />
     </video>
@@ -33,16 +33,13 @@ export function Bento({ tiles, photos }: { tiles: Tile[]; photos: Shot[] }) {
         {tiles.map((t) => (
           <button key={t.area} className={`b-tile${t.video ? ' is-video' : ''}`} style={{ gridArea: t.area }} onClick={() => openPhoto(t.name)} aria-label={`Open photo: ${t.alt}`}>
             {t.video ? (
-              <Clip name={t.name} alt={t.alt} />
+              <Clip name={t.name} alt={t.alt} pos={t.pos} />
             ) : (
               <img src={`/assets/summit/${t.name}-1600.jpg`} srcSet={`/assets/summit/${t.name}-800.jpg 800w, /assets/summit/${t.name}-1600.jpg 1600w`} sizes="(max-width: 980px) 50vw, 25vw" alt={t.alt} style={t.pos ? { objectPosition: t.pos } : undefined} />
             )}
             <span className="b-cap">{t.video && <i className="b-live" aria-hidden="true" />}{t.label}</span>
           </button>
         ))}
-      </div>
-      <div className="b-more reveal">
-        <button className="btn btn-ghost" onClick={() => setOpen(0)}>See all {photos.length} photos <span className="arr">→</span></button>
       </div>
       {open !== null && <Lightbox items={photos} index={open} onChange={setOpen} onClose={() => setOpen(null)} />}
     </>
